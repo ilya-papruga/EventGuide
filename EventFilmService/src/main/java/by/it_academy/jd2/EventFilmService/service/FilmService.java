@@ -7,7 +7,12 @@ import by.it_academy.jd2.EventFilmService.service.api.IFilmService;
 import by.it_academy.jd2.EventFilmService.service.api.IMapperService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,8 +41,15 @@ public class FilmService implements IFilmService {
             throw new IllegalArgumentException("Для создания необходимо заполнить все поля");
         }
 
-        return this.filmDao.save(this.mapperService.mapCreate(dto));
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            String url = "http://localhost:8080/api/v1/classifier/country/" + dto.getCountry();
+            ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        } catch (HttpClientErrorException e) {
+            throw new IllegalArgumentException("Выбранная страна отсутсвует в справочнике");
+        }
 
+        return this.filmDao.save(this.mapperService.mapCreate(dto));
     }
 
     @Override
@@ -78,6 +90,14 @@ public class FilmService implements IFilmService {
                 dto.getDuration() == null
         ) {
             throw new IllegalArgumentException("Для обновления необходимо заполнить все поля");
+        }
+
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            String url = "http://localhost:8080/api/v1/classifier/country/" + dto.getCountry();
+            ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        } catch (HttpClientErrorException e) {
+            throw new IllegalArgumentException("Выбранная страна отсутсвует в справочнике");
         }
 
         Film filmDB = this.readOne(uuid);
