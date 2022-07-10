@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a9a636ee-845b-4f19-b1f4-ffaac82ea869" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$PROJECT_DIR$/../../../tools/maven/apache-maven-3.8.5" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2BWIyMPgroLMtAxvauAMHGYkKUo" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/proj/Mk-JD2-90-22/Currencies/CurrencyJavaConfig",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "configurable.group.build"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\proj\ITAcademyAfisha\EventFilmService\src\main\java\by\it_academy\jd2\EventFilmService\controllers" />
+      <recent name="C:\proj\ITAcademyAfisha\FilmService\src\main\resources" />
+      <recent name="C:\proj\ITAcademyAfisha\FilmService\src\main\java\by\it_academy\jd2\FilmService\service\api" />
+    </key>
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="by.it_academy.jd2.EventFilmService.core.dto.error" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="by.it_academy.jd2.EventFilmService.controllers.advices" />
+      <recent name="by.it_academy.jd2.EventFilmService.core.entity" />
+      <recent name="by.it_academy.jd2.FilmService.config" />
+      <recent name="by.it_academy.jd2.FilmService.core.dto" />
+      <recent name="by.it_academy.jd2.FilmService.controllers" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.EventFilmServiceApplication">
+    <configuration name="EventFilmServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="by.it_academy.jd2.EventFilmService.EventFilmServiceApplication" />
+      <module name="EventFilmService" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="by.it_academy.jd2.EventFilmService.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="by.it_academy.jd2.EventFilmService.main.Main" />
+      <module name="EventFilmService" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="by.it_academy.jd2.EventFilmService.main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.EventFilmServiceApplication" />
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a9a636ee-845b-4f19-b1f4-ffaac82ea869" name="Changes" comment="" />
+      <created>1657015676256</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1657015676256</updated>
+    </task>
+    <servers />
+  </component>
+</project>
