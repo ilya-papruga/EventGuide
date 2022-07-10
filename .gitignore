@@ -1,0 +1,6 @@
+*.class
+.idea/
+out/
+*.iml
+target/
+toDo.txt
