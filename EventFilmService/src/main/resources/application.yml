@@ -2,7 +2,7 @@ spring:
   datasource:
     username: postgres
     password: postgres
-    url: jdbc:postgresql://localhost:5432/film_service?currentSchema=main
+    url: jdbc:postgresql://localhost:5432/film_service
     driver-class-name: org.postgresql.Driver
 server:
-  port: 80
+  port: 8081
