@@ -43,7 +43,7 @@ public class CountryService implements ICountryService {
         return this.countryDao
                 .findById(uuid)
                 .orElseThrow(() -> {
-                    throw new IllegalArgumentException("Не нашли такой фильм");
+                    throw new IllegalArgumentException("Страна не найдена");
                 });
     }
 

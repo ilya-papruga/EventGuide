@@ -1,6 +1,5 @@
 package by.it_academy.jd2.ClassifierService.service;
 
-import by.it_academy.jd2.ClassifierService.core.dao.IClassifierDao;
 import by.it_academy.jd2.ClassifierService.core.dao.api.ICategoryDao;
 import by.it_academy.jd2.ClassifierService.core.dto.category.CategoryCreate;
 import by.it_academy.jd2.ClassifierService.core.entity.Category;
@@ -28,7 +27,7 @@ public class CategoryService implements ICategoryService {
     public Category create(CategoryCreate dto) {
 
         if (dto.getTitle() == null) {
-            throw new IllegalArgumentException("Для создания необходимо заполнить поле title");
+            throw new IllegalArgumentException("Поле title не может быть пустым");
         }
 
         return this.categoryDao.save(this.mapperService.mapCreateCategory(dto));
