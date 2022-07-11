@@ -91,7 +91,7 @@ public class ConcertService implements IConcertService {
             String url = "http://localhost:8080/api/v1/classifier/concert/category/" + dto.getCategory();
             ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         } catch (HttpClientErrorException e) {
-            throw new RuntimeException(e.getMessage());
+            throw new IllegalArgumentException("Выбранная категория отсутсвует в справочнике");
         }
 
         Concert concertDB = this.readOne(uuid);
