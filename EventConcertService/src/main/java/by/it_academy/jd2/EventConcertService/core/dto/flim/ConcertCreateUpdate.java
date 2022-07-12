@@ -4,19 +4,28 @@ import by.it_academy.jd2.EventConcertService.controllers.utils.json.LocalDateTim
 import by.it_academy.jd2.EventConcertService.core.entity.enums.EventStatus;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class ConcertCreateUpdate {
 
+    @NotBlank
     private String title;
+    @NotBlank
     private String description;
+    @NotNull
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime dtEvent;
+    @NotNull
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime dtEndOfSale;
+    @NotBlank
     private String type;
+    @NotNull
     private EventStatus eventStatus;
+    @NotNull
     private UUID category;
 
 

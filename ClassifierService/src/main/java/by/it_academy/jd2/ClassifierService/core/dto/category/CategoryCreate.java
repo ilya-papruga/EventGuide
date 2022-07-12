@@ -1,7 +1,9 @@
 package by.it_academy.jd2.ClassifierService.core.dto.category;
 
-public class CategoryCreate {
+import javax.validation.constraints.NotBlank;
 
+public class CategoryCreate {
+    @NotBlank
     private String title;
 
     public CategoryCreate() {

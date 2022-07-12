@@ -4,22 +4,35 @@ import by.it_academy.jd2.EventFilmService.controllers.utils.json.LocalDateTimeDe
 import by.it_academy.jd2.EventFilmService.core.entity.enums.EventStatus;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class FilmCreateUpdate {
-
+    @NotBlank
     private String title;
+    @NotBlank
     private String description;
+    @NotNull
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime dtEvent;
+    @NotNull
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime dtEndOfSale;
+    @NotBlank
     private String type;
+    @NotNull
     private EventStatus eventStatus;
+    @NotNull
     private UUID country;
+    @Min(value = 0)
+    @NotNull
     private Integer releaseYear;
+    @NotBlank
     private String releaseDate;
+    @Min(value = 0)
+    @Max(value = 300)
+    @NotNull
     private Integer duration;
 
     public FilmCreateUpdate() {

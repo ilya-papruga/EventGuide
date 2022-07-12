@@ -1,8 +1,11 @@
 package by.it_academy.jd2.ClassifierService.core.dto.country;
 
-public class CountryCreate {
+import javax.validation.constraints.NotBlank;
 
+public class CountryCreate {
+    @NotBlank
     private String title;
+    @NotBlank
     private String description;
 
     public CountryCreate() {
