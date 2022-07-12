@@ -7,13 +7,13 @@ import by.it_academy.jd2.EventFilmService.service.api.IFilmService;
 import by.it_academy.jd2.EventFilmService.service.api.IMapperService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -31,15 +31,7 @@ public class FilmService implements IFilmService {
     }
 
     @Override
-    public Film create(FilmCreateUpdate dto) {
-
-        if (dto.getTitle() == null || dto.getDescription() == null || dto.getDtEvent() == null ||
-                dto.getDtEndOfSale() == null || dto.getType() == null || dto.getEventStatus() == null ||
-                dto.getCountry() == null || dto.getReleaseYear() == null || dto.getReleaseDate() == null ||
-                dto.getDuration() == null
-        ) {
-            throw new IllegalArgumentException("Для создания необходимо заполнить все поля");
-        }
+    public Film create( FilmCreateUpdate dto) {
 
         try {
             RestTemplate restTemplate = new RestTemplate();
@@ -67,11 +59,6 @@ public class FilmService implements IFilmService {
     }
 
     @Override
-    public List<Film> readAll() {
-        return this.filmDao.findAll();
-    }
-
-    @Override
     public Page<Film> getPage(Pageable pageable) {
 
         return this.filmDao.findAll(pageable);
@@ -84,14 +71,6 @@ public class FilmService implements IFilmService {
             throw new IllegalArgumentException("Поле uuid не может быть пустым");
         }
 
-        if (dto.getTitle() == null || dto.getDescription() == null || dto.getDtEvent() == null ||
-                dto.getDtEndOfSale() == null || dto.getType() == null || dto.getEventStatus() == null ||
-                dto.getCountry() == null || dto.getReleaseYear() == null || dto.getReleaseDate() == null ||
-                dto.getDuration() == null
-        ) {
-            throw new IllegalArgumentException("Для обновления необходимо заполнить все поля");
-        }
-
         try {
             RestTemplate restTemplate = new RestTemplate();
             String url = "http://localhost:8080/api/v1/classifier/country/" + dto.getCountry();
@@ -100,7 +79,7 @@ public class FilmService implements IFilmService {
             throw new IllegalArgumentException("Выбранная страна отсутсвует в справочнике");
         }
 
-        Film filmDB = this.readOne(uuid);
+        Film filmDB = readOne(uuid);
 
         if (!filmDB.getDtUpdate().equals(dtUpdate)) {
             throw new IllegalArgumentException("Фильм уже был обновлен кем-то ранее");
@@ -108,6 +87,6 @@ public class FilmService implements IFilmService {
 
         Film film = mapperService.mapUpdate(dto, filmDB);
 
-       return this.filmDao.save(film);
+       return this.filmDao.save(filmDB);
     }
 }

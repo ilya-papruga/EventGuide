@@ -63,11 +63,6 @@ public class ConcertService implements IConcertService {
     }
 
     @Override
-    public List<Concert> readAll() {
-        return this.concertDao.findAll();
-    }
-
-    @Override
     public Page<Concert> getPage(Pageable pageable) {
 
         return this.concertDao.findAll(pageable);
