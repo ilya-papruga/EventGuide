@@ -1,18 +1,13 @@
 package by.it_academy.jd2.UserService.core.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(schema = "user_service", name = "roles")
 public class Role implements GrantedAuthority {
-
-
     @Id
     private String name;
     @Transient
@@ -21,7 +16,6 @@ public class Role implements GrantedAuthority {
 
     public Role() {
     }
-
     public Role(String name) {
         this.name = name;
     }
