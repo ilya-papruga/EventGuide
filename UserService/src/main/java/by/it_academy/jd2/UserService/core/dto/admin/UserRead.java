@@ -1,11 +1,12 @@
 package by.it_academy.jd2.UserService.core.dto.admin;
 
 import by.it_academy.jd2.UserService.controllers.utils.json.LocalDateTimeSerializer;
-import by.it_academy.jd2.UserService.core.entity.enums.UserRole;
 import by.it_academy.jd2.UserService.core.entity.enums.UserStatus;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class UserRead {
@@ -17,20 +18,19 @@ public class UserRead {
     private LocalDateTime dtUpdate;
     private String mail;
     private String nick;
-    private UserRole role;
+    private List<String> roles;
     private UserStatus status;
 
     public UserRead() {
     }
 
-    public UserRead(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String mail, String nick, UserRole role,
-                    UserStatus status) {
+    public UserRead(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String mail, String nick, List<String> roles, UserStatus status) {
         this.uuid = uuid;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
         this.mail = mail;
         this.nick = nick;
-        this.role = role;
+        this.roles = roles;
         this.status = status;
     }
 
@@ -74,12 +74,12 @@ public class UserRead {
         this.nick = nick;
     }
 
-    public UserRole getRole() {
-        return role;
+    public List<String> getRoles() {
+        return roles;
     }
 
-    public void setRole(UserRole role) {
-        this.role = role;
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 
     public UserStatus getStatus() {

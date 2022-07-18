@@ -1,18 +1,21 @@
 package by.it_academy.jd2.UserService.core.entity;
 
 import by.it_academy.jd2.UserService.controllers.utils.json.LocalDateTimeSerializer;
-import by.it_academy.jd2.UserService.core.entity.enums.UserRole;
 import by.it_academy.jd2.UserService.core.entity.enums.UserStatus;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(schema = "user_service", name ="users")
-public class User {
+public class User implements UserDetails {
 
     @Id
     private UUID uuid;
@@ -26,27 +29,17 @@ public class User {
 
     private String mail;
     private String nick;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role")
-    private UserRole role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(schema = "user_service", name = "users_roles",
+            joinColumns = { @JoinColumn(name = "user_mail", referencedColumnName = "mail")},
+            inverseJoinColumns = { @JoinColumn(name = "role_name", referencedColumnName = "name")})
+    private List<Role> role;
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private UserStatus status;
     private String password;
 
     public User() {
-    }
-
-    public User(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String mail, String nick, UserRole role,
-                UserStatus status, String password) {
-        this.uuid = uuid;
-        this.dtCreate = dtCreate;
-        this.dtUpdate = dtUpdate;
-        this.mail = mail;
-        this.nick = nick;
-        this.role = role;
-        this.status = status;
-        this.password = password;
     }
 
     public UUID getUuid() {
@@ -89,14 +82,6 @@ public class User {
         this.nick = nick;
     }
 
-    public UserRole getRole() {
-        return role;
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
-    }
-
     public UserStatus getStatus() {
         return status;
     }
@@ -111,6 +96,54 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRole();
+    }
+
+    @Override
+    public String getUsername() {
+        return mail;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    public List<Role> getRole() {
+        return role;
+    }
+
+    public List<String> getStringRoles(){
+
+        List<String> rolesList = new ArrayList<>();
+
+        for (Role role : getRole()) {
+            rolesList.add(role.getName().split("_")[1].trim());
+        }
+        return rolesList;
+    }
+
+    public void setRole(List<Role> role) {
+        this.role = role;
     }
 }
 

@@ -17,7 +17,7 @@ public class UserCreateUpdate {
     @NotBlank
     private String nick;
     @NotNull
-    private UserRole role;
+    private String role;
     @NotNull
     private UserStatus status;
     @Password
@@ -26,7 +26,7 @@ public class UserCreateUpdate {
     public UserCreateUpdate() {
     }
 
-    public UserCreateUpdate(String mail, String nick, UserRole role, UserStatus status, String password) {
+    public UserCreateUpdate(String mail, String nick, String role, UserStatus status, String password) {
         this.mail = mail;
         this.nick = nick;
         this.role = role;
@@ -50,11 +50,11 @@ public class UserCreateUpdate {
         this.nick = nick;
     }
 
-    public UserRole getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(UserRole role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

@@ -4,6 +4,11 @@ spring:
     password: postgres
     url: jdbc:postgresql://localhost:5432/user_service
     driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
 server:
   port: 8083
   error:

@@ -10,12 +10,9 @@ import org.springframework.data.domain.Page;
 public interface IMapperService {
 
     UserRead mapRead(User user);
-
     User mapAdminCreate(UserCreateUpdate dto);
     User mapUserCreate(UserReg dto);
-
     User mapUpdate(UserCreateUpdate dto, User userDB);
-
     PageRead<UserRead> mapPage(Page<User> page);
 
 }
