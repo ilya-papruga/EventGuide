@@ -6,12 +6,10 @@ import by.it_academy.jd2.UserService.core.dto.admin.UserRead;
 import by.it_academy.jd2.UserService.core.dto.user.UserReg;
 import by.it_academy.jd2.UserService.core.entity.Role;
 import by.it_academy.jd2.UserService.core.entity.User;
-import by.it_academy.jd2.UserService.core.entity.enums.UserRole;
 import by.it_academy.jd2.UserService.core.entity.enums.UserStatus;
 import by.it_academy.jd2.UserService.service.api.IMapperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -71,7 +69,7 @@ public class MapperService implements IMapperService {
         user.setNick(dto.getNick());
         user.setRole(List.of(new Role("ROLE_USER")));
         user.setStatus(UserStatus.WAITING_ACTIVATION);
-        user.setPassword(dto.getPassword());
+        user.setPassword(encoder.encode(dto.getPassword()));
 
         return user;
     }
@@ -88,7 +86,7 @@ public class MapperService implements IMapperService {
         user.setNick(dto.getNick());
         user.setRole(List.of(new Role("ROLE_" +dto.getRole())));
         user.setStatus(dto.getStatus());
-        user.setPassword(dto.getPassword());
+        user.setPassword(encoder.encode(dto.getPassword()));
 
         return user;
     }
