@@ -4,8 +4,12 @@ spring:
     password: postgres
     url: jdbc:postgresql://localhost:5432/film_service
     driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
 server:
   port: 8081
   error:
       include-message: ALWAYS
-      include-stacktrace: NEVER
