@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Path;
@@ -20,6 +21,28 @@ public class GlobalHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public List<SingleError> handle(IllegalArgumentException e) {
+
+        List<SingleError> errorResponseList = new ArrayList<>();
+
+        errorResponseList.add(new SingleError(e.getMessage()));
+
+        return errorResponseList;
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public List<SingleError> handle(RuntimeException e) {
+
+        List<SingleError> errorResponseList = new ArrayList<>();
+
+        errorResponseList.add(new SingleError(e.getMessage()));
+
+        return errorResponseList;
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public List<SingleError> handle(EntityNotFoundException e) {
 
         List<SingleError> errorResponseList = new ArrayList<>();
 
