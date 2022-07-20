@@ -5,56 +5,42 @@ import by.it_academy.jd2.EventFilmService.core.dto.flim.FilmCreateUpdate;
 import by.it_academy.jd2.EventFilmService.core.entity.Film;
 import by.it_academy.jd2.EventFilmService.service.api.IFilmService;
 import by.it_academy.jd2.EventFilmService.service.api.IMapperService;
+import by.it_academy.jd2.EventFilmService.validation.api.IHttpValidator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = true)
 public class FilmService implements IFilmService {
 
     private final IFilmDao filmDao;
     private final IMapperService mapperService;
+    private final IHttpValidator httpValidator;
 
-
-    public FilmService(IFilmDao filmDao, IMapperService mapperService) {
+    public FilmService(IFilmDao filmDao, IMapperService mapperService, IHttpValidator httpValidator) {
         this.filmDao = filmDao;
         this.mapperService = mapperService;
+        this.httpValidator = httpValidator;
     }
 
     @Override
-    public Film create( FilmCreateUpdate dto) {
+    @Transactional
+    public Film create(FilmCreateUpdate dto) {
 
-        try {
-            RestTemplate restTemplate = new RestTemplate();
-            String url = "http://localhost:8080/api/v1/classifier/country/" + dto.getCountry();
-            ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-        } catch (HttpClientErrorException e) {
-            throw new IllegalArgumentException("Выбранная страна отсутсвует в справочнике");
-        }
-
+        httpValidator.validCountry(dto.getCountry());
         return this.filmDao.save(this.mapperService.mapCreate(dto));
     }
 
     @Override
     public Film readOne(UUID uuid) {
 
-        if (uuid == null || uuid.toString().isEmpty()) {
-            throw new IllegalArgumentException("Поле uuid не может быть пустым");
-        }
-
-        return this.filmDao
-                .findById(uuid)
-                .orElseThrow(() -> {
-                    throw new IllegalArgumentException("Не нашли такой фильм");
+        return this.filmDao.findById(uuid).orElseThrow(() -> {
+                    throw new IllegalArgumentException("фильм не найден");
                 });
     }
 
@@ -65,28 +51,14 @@ public class FilmService implements IFilmService {
     }
 
     @Override
+    @Transactional
     public Film update(UUID uuid, FilmCreateUpdate dto, LocalDateTime dtUpdate) {
 
-        if (uuid == null || uuid.toString().isEmpty()) {
-            throw new IllegalArgumentException("Поле uuid не может быть пустым");
-        }
-
-        try {
-            RestTemplate restTemplate = new RestTemplate();
-            String url = "http://localhost:8080/api/v1/classifier/country/" + dto.getCountry();
-            ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-        } catch (HttpClientErrorException e) {
-            throw new IllegalArgumentException("Выбранная страна отсутсвует в справочнике");
-        }
-
+        httpValidator.validCountry(dto.getCountry());
         Film filmDB = readOne(uuid);
-
         if (!filmDB.getDtUpdate().equals(dtUpdate)) {
-            throw new IllegalArgumentException("Фильм уже был обновлен кем-то ранее");
+            throw new IllegalArgumentException("фильм уже был обновлен кем-то ранее");
         }
-
-        Film film = mapperService.mapUpdate(dto, filmDB);
-
-       return this.filmDao.save(filmDB);
+        return this.filmDao.save(mapperService.mapUpdate(dto, filmDB));
     }
 }
