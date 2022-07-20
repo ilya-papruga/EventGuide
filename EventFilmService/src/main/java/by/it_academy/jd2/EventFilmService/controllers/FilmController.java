@@ -34,13 +34,11 @@ public class FilmController {
         return new ResponseEntity<>(mapperService.mapRead(filmService.create(dto)), HttpStatus.CREATED);
     }
 
-
     @GetMapping
     public ResponseEntity<PageRead<FilmRead>> getFilmPage (@RequestParam(defaultValue = "0") Integer page,
                                                            @RequestParam(defaultValue = "20") Integer size)
     {
         PageRequest pageRequest = PageRequest.of(page,size);
-
         return ResponseEntity.ok(mapperService.mapPage(filmService.getPage(pageRequest)));
     }
 
