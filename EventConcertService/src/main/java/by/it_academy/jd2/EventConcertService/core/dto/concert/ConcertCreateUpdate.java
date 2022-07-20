@@ -1,7 +1,6 @@
 package by.it_academy.jd2.EventConcertService.core.dto.flim;
 
 import by.it_academy.jd2.EventConcertService.controllers.utils.json.LocalDateTimeDeserializer;
-import by.it_academy.jd2.EventConcertService.core.entity.enums.EventStatus;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.validation.constraints.NotBlank;
@@ -21,10 +20,6 @@ public class ConcertCreateUpdate {
     @NotNull
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime dtEndOfSale;
-    @NotBlank
-    private String type;
-    @NotNull
-    private EventStatus eventStatus;
     @NotNull
     private UUID category;
 
@@ -32,14 +27,11 @@ public class ConcertCreateUpdate {
     public ConcertCreateUpdate() {
     }
 
-    public ConcertCreateUpdate(String title, String description, LocalDateTime dtEvent, LocalDateTime dtEndOfSale,
-                               String type, EventStatus eventStatus, UUID category) {
+    public ConcertCreateUpdate(String title, String description, LocalDateTime dtEvent, LocalDateTime dtEndOfSale, UUID category) {
         this.title = title;
         this.description = description;
         this.dtEvent = dtEvent;
         this.dtEndOfSale = dtEndOfSale;
-        this.type = type;
-        this.eventStatus = eventStatus;
         this.category = category;
     }
 
@@ -73,22 +65,6 @@ public class ConcertCreateUpdate {
 
     public void setDtEndOfSale(LocalDateTime dtEndOfSale) {
         this.dtEndOfSale = dtEndOfSale;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public EventStatus getEventStatus() {
-        return eventStatus;
-    }
-
-    public void setEventStatus(EventStatus eventStatus) {
-        this.eventStatus = eventStatus;
     }
 
     public UUID getCategory() {
