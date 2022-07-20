@@ -1,4 +1,4 @@
-package by.it_academy.jd2.EventConcertService.core.dto.flim;
+package by.it_academy.jd2.EventConcertService.core.dto.concert;
 
 import by.it_academy.jd2.EventConcertService.controllers.utils.json.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
