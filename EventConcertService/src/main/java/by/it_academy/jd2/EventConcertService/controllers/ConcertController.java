@@ -1,8 +1,8 @@
 package by.it_academy.jd2.EventConcertService.controllers;
 
 
-import by.it_academy.jd2.EventConcertService.core.dto.flim.ConcertCreateUpdate;
-import by.it_academy.jd2.EventConcertService.core.dto.flim.ConcertRead;
+import by.it_academy.jd2.EventConcertService.core.dto.concert.ConcertCreateUpdate;
+import by.it_academy.jd2.EventConcertService.core.dto.concert.ConcertRead;
 import by.it_academy.jd2.EventConcertService.core.dto.page.PageRead;
 import by.it_academy.jd2.EventConcertService.service.api.IConcertService;
 import by.it_academy.jd2.EventConcertService.service.api.IMapperService;
