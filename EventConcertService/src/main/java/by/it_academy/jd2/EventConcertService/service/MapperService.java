@@ -1,9 +1,10 @@
 package by.it_academy.jd2.EventConcertService.service;
 
-import by.it_academy.jd2.EventConcertService.core.dto.flim.ConcertCreateUpdate;
+import by.it_academy.jd2.EventConcertService.core.dto.concert.ConcertCreateUpdate;
 import by.it_academy.jd2.EventConcertService.core.dto.page.PageRead;
-import by.it_academy.jd2.EventConcertService.core.dto.flim.ConcertRead;
+import by.it_academy.jd2.EventConcertService.core.dto.concert.ConcertRead;
 import by.it_academy.jd2.EventConcertService.core.entity.Concert;
+import by.it_academy.jd2.EventConcertService.core.entity.enums.EventStatus;
 import by.it_academy.jd2.EventConcertService.service.api.IMapperService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -47,8 +48,8 @@ public class MapperService implements IMapperService {
         concert.setDescription(dto.getDescription());
         concert.setDtEvent(dto.getDtEvent());
         concert.setDtEndOfSale(dto.getDtEndOfSale());
-        concert.setType(dto.getType());
-        concert.setEventStatus(dto.getEventStatus());
+        concert.setType("concert");
+        concert.setEventStatus(EventStatus.DRAFT);
         concert.setCategory(dto.getCategory());
 
         return concert;
@@ -66,8 +67,8 @@ public class MapperService implements IMapperService {
         concert.setDescription(dto.getDescription());
         concert.setDtEvent(dto.getDtEvent());
         concert.setDtEndOfSale(dto.getDtEndOfSale());
-        concert.setType(dto.getType());
-        concert.setEventStatus(dto.getEventStatus());
+        concert.setType("concert");
+        concert.setEventStatus(concertDB.getEventStatus());
         concert.setCategory(dto.getCategory());
 
         return concert;

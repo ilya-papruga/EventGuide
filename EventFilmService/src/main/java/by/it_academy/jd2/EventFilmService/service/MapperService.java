@@ -4,6 +4,7 @@ import by.it_academy.jd2.EventFilmService.core.dto.flim.FilmCreateUpdate;
 import by.it_academy.jd2.EventFilmService.core.dto.page.PageRead;
 import by.it_academy.jd2.EventFilmService.core.dto.flim.FilmRead;
 import by.it_academy.jd2.EventFilmService.core.entity.Film;
+import by.it_academy.jd2.EventFilmService.core.entity.enums.EventStatus;
 import by.it_academy.jd2.EventFilmService.service.api.IMapperService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -50,8 +51,8 @@ public class MapperService implements IMapperService {
         film.setDescription(dto.getDescription());
         film.setDtEvent(dto.getDtEvent());
         film.setDtEndOfSale(dto.getDtEndOfSale());
-        film.setType(dto.getType());
-        film.setEventStatus(dto.getEventStatus());
+        film.setType("film");
+        film.setEventStatus(EventStatus.DRAFT);
         film.setCountry(dto.getCountry());
         film.setReleaseYear(dto.getReleaseYear());
         film.setReleaseDate(dto.getReleaseDate());
@@ -72,8 +73,8 @@ public class MapperService implements IMapperService {
         film.setDescription(dto.getDescription());
         film.setDtEvent(dto.getDtEvent());
         film.setDtEndOfSale(dto.getDtEndOfSale());
-        film.setType(dto.getType());
-        film.setEventStatus(dto.getEventStatus());
+        film.setType("film");
+        film.setEventStatus(filmDB.getEventStatus());
         film.setCountry(dto.getCountry());
         film.setReleaseYear(dto.getReleaseYear());
         film.setReleaseDate(dto.getReleaseDate());
@@ -81,7 +82,6 @@ public class MapperService implements IMapperService {
 
         return film;
     }
-
     @Override
     public PageRead<FilmRead> mapPage(Page<Film> page) {
 
