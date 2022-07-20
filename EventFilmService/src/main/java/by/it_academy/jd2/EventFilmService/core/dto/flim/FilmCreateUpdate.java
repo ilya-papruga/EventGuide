@@ -1,7 +1,6 @@
 package by.it_academy.jd2.EventFilmService.core.dto.flim;
 
 import by.it_academy.jd2.EventFilmService.controllers.utils.json.LocalDateTimeDeserializer;
-import by.it_academy.jd2.EventFilmService.core.entity.enums.EventStatus;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.validation.constraints.*;
@@ -19,10 +18,6 @@ public class FilmCreateUpdate {
     @NotNull
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime dtEndOfSale;
-    @NotBlank
-    private String type;
-    @NotNull
-    private EventStatus eventStatus;
     @NotNull
     private UUID country;
     @Min(value = 0)
@@ -39,14 +34,11 @@ public class FilmCreateUpdate {
     }
 
     public FilmCreateUpdate(String title, String description, LocalDateTime dtEvent, LocalDateTime dtEndOfSale,
-                            String type, EventStatus eventStatus, UUID country, Integer releaseYear,
-                            String releaseDate, Integer duration) {
+                            UUID country, Integer releaseYear, String releaseDate, Integer duration) {
         this.title = title;
         this.description = description;
         this.dtEvent = dtEvent;
         this.dtEndOfSale = dtEndOfSale;
-        this.type = type;
-        this.eventStatus = eventStatus;
         this.country = country;
         this.releaseYear = releaseYear;
         this.releaseDate = releaseDate;
@@ -83,22 +75,6 @@ public class FilmCreateUpdate {
 
     public void setDtEndOfSale(LocalDateTime dtEndOfSale) {
         this.dtEndOfSale = dtEndOfSale;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public EventStatus getEventStatus() {
-        return eventStatus;
-    }
-
-    public void setEventStatus(EventStatus eventStatus) {
-        this.eventStatus = eventStatus;
     }
 
     public UUID getCountry() {
