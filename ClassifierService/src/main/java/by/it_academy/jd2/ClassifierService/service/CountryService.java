@@ -8,10 +8,12 @@ import by.it_academy.jd2.ClassifierService.service.api.IMapperService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = true)
 public class CountryService implements ICountryService {
 
     private final ICountryDao countryDao;
@@ -23,12 +25,9 @@ public class CountryService implements ICountryService {
         this.mapperService = mapperService;
     }
 
+    @Transactional
     @Override
     public Country create(CountryCreate dto) {
-
-        if (dto.getTitle() == null || dto.getDescription() == null) {
-            throw new IllegalArgumentException("Для создания необходимо заполнить все поля");
-        }
 
         return this.countryDao.save(this.mapperService.mapCreateCountry(dto));
     }
@@ -36,13 +35,8 @@ public class CountryService implements ICountryService {
     @Override
     public Country readOne(UUID uuid) {
 
-        if (uuid == null || uuid.toString().isEmpty()) {
-            throw new IllegalArgumentException("Поле uuid не может быть пустым");
-        }
-
         return this.countryDao
-                .findById(uuid)
-                .orElseThrow(() -> {
+                .findById(uuid).orElseThrow(() -> {
                     throw new IllegalArgumentException("Страна не найдена");
                 });
     }
