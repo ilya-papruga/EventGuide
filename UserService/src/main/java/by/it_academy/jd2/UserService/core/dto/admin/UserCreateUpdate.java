@@ -1,6 +1,5 @@
 package by.it_academy.jd2.UserService.core.dto.admin;
 
-import by.it_academy.jd2.UserService.core.entity.enums.UserRole;
 import by.it_academy.jd2.UserService.core.entity.enums.UserStatus;
 import by.it_academy.jd2.UserService.validation.Password;
 
@@ -18,19 +17,16 @@ public class UserCreateUpdate {
     private String nick;
     @NotNull
     private String role;
-    @NotNull
-    private UserStatus status;
     @Password
     private String password;
 
     public UserCreateUpdate() {
     }
 
-    public UserCreateUpdate(String mail, String nick, String role, UserStatus status, String password) {
+    public UserCreateUpdate(String mail, String nick, String role, String password) {
         this.mail = mail;
         this.nick = nick;
         this.role = role;
-        this.status = status;
         this.password = password;
     }
 
@@ -56,14 +52,6 @@ public class UserCreateUpdate {
 
     public void setRole(String role) {
         this.role = role;
-    }
-
-    public UserStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(UserStatus status) {
-        this.status = status;
     }
 
     public String getPassword() {
