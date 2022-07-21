@@ -8,11 +8,13 @@ import by.it_academy.jd2.UserService.service.api.IMapperService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = true)
 public class AdminService implements IAdminService {
 
     private final IUserDao userDao;
@@ -24,6 +26,7 @@ public class AdminService implements IAdminService {
     }
 
     @Override
+    @Transactional
     public User create(UserCreateUpdate dto) {
 
         return this.userDao.save(this.mapperService.mapAdminCreate(dto));
@@ -32,14 +35,9 @@ public class AdminService implements IAdminService {
     @Override
     public User readOne(UUID uuid) {
 
-        if (uuid == null || uuid.toString().isEmpty()) {
-            throw new IllegalArgumentException("Поле uuid не может быть пустым");
-        }
-
         return this.userDao
-                .findById(uuid)
-                .orElseThrow(() -> {
-                    throw new IllegalArgumentException("Пользователь не найден");
+                .findById(uuid).orElseThrow(() -> {
+                    throw new IllegalArgumentException("пользователь не найден");
                 });
     }
 
@@ -50,20 +48,16 @@ public class AdminService implements IAdminService {
     }
 
     @Override
+    @Transactional
     public User update(UUID uuid, UserCreateUpdate dto, LocalDateTime dtUpdate) {
-
-        if (uuid == null || uuid.toString().isEmpty()) {
-            throw new IllegalArgumentException("Поле uuid не может быть пустым");
-        }
 
         User userDB = readOne(uuid);
 
         if (!userDB.getDtUpdate().equals(dtUpdate)) {
-            throw new IllegalArgumentException("Информация о пользователе уже была обновлена кем-то ранее");
+            throw new IllegalArgumentException("информация о пользователе уже была обновлена кем-то ранее");
         }
-
         User user = mapperService.mapUpdate(dto, userDB);
 
-       return this.userDao.save(user);
+        return this.userDao.save(user);
     }
 }
