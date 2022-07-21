@@ -137,7 +137,7 @@ public class User implements UserDetails {
         List<String> rolesList = new ArrayList<>();
 
         for (Role role : getRole()) {
-            rolesList.add(role.getName().split("_")[1].trim());
+            rolesList.add(role.getName());
         }
         return rolesList;
     }
