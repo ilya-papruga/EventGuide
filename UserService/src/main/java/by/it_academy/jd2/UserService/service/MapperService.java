@@ -8,12 +8,12 @@ import by.it_academy.jd2.UserService.core.entity.Role;
 import by.it_academy.jd2.UserService.core.entity.User;
 import by.it_academy.jd2.UserService.core.entity.enums.UserStatus;
 import by.it_academy.jd2.UserService.service.api.IMapperService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -21,8 +21,11 @@ import java.util.UUID;
 @Service
 public class MapperService implements IMapperService {
 
-    @Autowired
-    PasswordEncoder encoder;
+    private final PasswordEncoder encoder;
+
+    public MapperService(PasswordEncoder encoder) {
+        this.encoder = encoder;
+    }
 
     @Override
     public UserRead mapRead(User user) {
@@ -46,12 +49,12 @@ public class MapperService implements IMapperService {
         User user = new User();
 
         user.setUuid(UUID.randomUUID());
-        user.setDtCreate(LocalDateTime.now());
+        user.setDtCreate(LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
         user.setDtUpdate(user.getDtCreate());
         user.setMail(dto.getMail());
         user.setNick(dto.getNick());
-        user.setRole(List.of(new Role("ROLE_" + dto.getRole())));
-        user.setStatus(dto.getStatus());
+        user.setRole(List.of(new Role(dto.getRole())));
+        user.setStatus(UserStatus.ACTIVATED);
         user.setPassword(encoder.encode(dto.getPassword()));
 
         return user;
@@ -63,7 +66,7 @@ public class MapperService implements IMapperService {
         User user = new User();
 
         user.setUuid(UUID.randomUUID());
-        user.setDtCreate(LocalDateTime.now());
+        user.setDtCreate(LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
         user.setDtUpdate(user.getDtCreate());
         user.setMail(dto.getMail());
         user.setNick(dto.getNick());
@@ -84,8 +87,8 @@ public class MapperService implements IMapperService {
         user.setDtUpdate(userDB.getDtUpdate());
         user.setMail(dto.getMail());
         user.setNick(dto.getNick());
-        user.setRole(List.of(new Role("ROLE_" +dto.getRole())));
-        user.setStatus(dto.getStatus());
+        user.setRole(List.of(new Role(dto.getRole())));
+        user.setStatus(userDB.getStatus());
         user.setPassword(encoder.encode(dto.getPassword()));
 
         return user;
