@@ -1,12 +1,11 @@
-package by.it_academy.jd2.UserService.controllers.utils;
+package by.it_academy.jd2.ClassifierService.controllers.utils;
 
 import io.jsonwebtoken.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class JwtTokenUtil {
@@ -16,38 +15,14 @@ public class JwtTokenUtil {
 
 
     public static String generateAccessToken(UserDetails user) {
-        return generateAccessToken(user.getUsername());
-    }
-
-    public static String generateAccessToken(String name) {
-        return Jwts.builder()
-                .setSubject(name)
-                .setIssuer(jwtIssuer)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(7))) // 1 week
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .compact();
-    }
-
-    public static String generateAccessTokenWithRole (UserDetails user){
-
-        Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
-
-        ArrayList<String> authsList = new ArrayList<>(authorities.size());
-
-        for (GrantedAuthority authority : authorities) {
-            authsList.add(authority.getAuthority());
-        }
-
         return Jwts.builder()
                 .setSubject(user.getUsername())
-                .claim("aut", authsList)
+                .setClaims((Claims) user.getAuthorities())
                 .setIssuer(jwtIssuer)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(7))) // 1 week
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
-
     }
 
     public static String getUsername(String token) {
@@ -57,6 +32,32 @@ public class JwtTokenUtil {
                 .getBody();
 
         return claims.getSubject();
+    }
+
+    public static Collection<GrantedAuthority> getAuthorities(String token) {
+
+        Claims claims = Jwts.parser()
+                .setSigningKey(jwtSecret)
+                .parseClaimsJws(token)
+                .getBody();
+
+        List<GrantedAuthority> authorities;
+
+        Collection<?> roles = claims.get("aut", Collection.class);
+
+        if (roles == null)
+        {
+            authorities = Collections.emptyList();
+            return authorities;
+        }
+
+        ArrayList<GrantedAuthority> authsList = new ArrayList<>(roles.size());
+
+            for (Object role : roles) {
+                authsList.add(new SimpleGrantedAuthority(role.toString()));
+            }
+
+            return Collections.unmodifiableList(authsList);
     }
 
     public static Date getExpirationDate(String token) {

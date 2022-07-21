@@ -10,7 +10,8 @@ public class UserLogin {
     @NotBlank
     @Email
     private String mail;
-    @Password
+
+    @NotBlank
     private String password;
 
     public UserLogin() {

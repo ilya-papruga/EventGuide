@@ -59,6 +59,6 @@ public class UserService implements IUserService {
         if(!encoder.matches(dto.getPassword(), details.getPassword())){
             throw new IllegalArgumentException("пароль неверный");
         }
-        return JwtTokenUtil.generateAccessToken(details);
+        return JwtTokenUtil.generateAccessTokenWithRole(details);
     }
 }
