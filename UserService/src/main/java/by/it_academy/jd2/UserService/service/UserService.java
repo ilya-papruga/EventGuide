@@ -6,24 +6,30 @@ import by.it_academy.jd2.UserService.core.dto.user.UserLogin;
 import by.it_academy.jd2.UserService.core.dto.user.UserReg;
 import by.it_academy.jd2.UserService.core.entity.User;
 
+import by.it_academy.jd2.UserService.service.api.IMapperService;
 import by.it_academy.jd2.UserService.service.api.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
+@Transactional(readOnly = true)
 public class UserService implements IUserService {
 
-    @Autowired
-    PasswordEncoder encoder;
-    @Autowired
-    IUserDao userDao;
-    @Autowired
-    MapperService mapperService;
+
+    private final PasswordEncoder encoder;
+    private final IUserDao userDao;
+    private final IMapperService mapperService;
+
+    public UserService(PasswordEncoder encoder, IUserDao userDao, IMapperService mapperService) {
+        this.encoder = encoder;
+        this.userDao = userDao;
+        this.mapperService = mapperService;
+    }
 
 
     @Override
@@ -34,8 +40,8 @@ public class UserService implements IUserService {
         }
         return user;
     }
-
-    public User create(UserReg dto) {
+    @Transactional
+    public void create(UserReg dto) {
 
         User userFromDB = userDao.findByMail(dto.getMail());
 
@@ -43,7 +49,7 @@ public class UserService implements IUserService {
             throw new IllegalArgumentException("пользователь уже существует");
         }
 
-        return this.userDao.save(this.mapperService.mapUserCreate(dto));
+        this.userDao.save(this.mapperService.mapUserCreate(dto));
     }
 
     public String login(UserLogin dto) {

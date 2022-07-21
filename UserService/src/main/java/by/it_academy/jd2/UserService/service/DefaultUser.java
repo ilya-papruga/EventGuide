@@ -4,7 +4,6 @@ import by.it_academy.jd2.UserService.core.dao.api.IUserDao;
 import by.it_academy.jd2.UserService.core.entity.Role;
 import by.it_academy.jd2.UserService.core.entity.User;
 import by.it_academy.jd2.UserService.core.entity.enums.UserStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -15,11 +14,14 @@ import java.util.*;
 @Component
 public class DefaultUser implements CommandLineRunner {
 
-    @Autowired
-    IUserDao dao;
 
-    @Autowired
-    PasswordEncoder encoder;
+    private final IUserDao dao;
+    private final PasswordEncoder encoder;
+
+    public DefaultUser(IUserDao dao, PasswordEncoder encoder) {
+        this.dao = dao;
+        this.encoder = encoder;
+    }
 
 
     @Override

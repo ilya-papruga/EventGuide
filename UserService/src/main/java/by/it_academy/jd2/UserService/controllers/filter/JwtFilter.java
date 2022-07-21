@@ -2,6 +2,7 @@ package by.it_academy.jd2.UserService.controllers.filter;
 
 import by.it_academy.jd2.UserService.controllers.utils.JwtTokenUtil;
 import by.it_academy.jd2.UserService.service.UserService;
+import by.it_academy.jd2.UserService.service.api.IUserService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,9 +24,9 @@ import static org.apache.logging.log4j.util.Strings.isEmpty;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    private final UserService service;
+    private final IUserService service;
 
-    public JwtFilter(UserService service) {
+    public JwtFilter(IUserService service) {
         this.service = service;
     }
 
