@@ -11,7 +11,7 @@ import javax.validation.Valid;
 @Validated
 public interface IUserService extends UserDetailsService {
 
-    User create(@Valid UserReg dto);
+    void create(@Valid UserReg dto);
 
     String login(@Valid UserLogin dto);
 }
