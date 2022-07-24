@@ -33,8 +33,8 @@ public class UserService implements IUserService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
-        User user = userDao.findByMail(mail);
+    public UserDetails loadUserByUsername(String nick) throws UsernameNotFoundException {
+        User user = userDao.findByNick(nick);
         if (user == null) {
             throw new UsernameNotFoundException("пользователь не найден");
         }

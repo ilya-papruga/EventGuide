@@ -10,4 +10,5 @@ import java.util.UUID;
 @Repository
 public interface IUserDao extends JpaRepository <User, UUID> {
     User findByMail(String mail);
+    User findByNick(String nick);
 }

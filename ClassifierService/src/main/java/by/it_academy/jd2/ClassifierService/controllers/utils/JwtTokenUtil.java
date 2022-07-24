@@ -41,14 +41,11 @@ public class JwtTokenUtil {
                 .parseClaimsJws(token)
                 .getBody();
 
-        List<GrantedAuthority> authorities;
-
         Collection<?> roles = claims.get("aut", Collection.class);
 
         if (roles == null)
         {
-            authorities = Collections.emptyList();
-            return authorities;
+            return Collections.emptyList();
         }
 
         ArrayList<GrantedAuthority> authsList = new ArrayList<>(roles.size());
