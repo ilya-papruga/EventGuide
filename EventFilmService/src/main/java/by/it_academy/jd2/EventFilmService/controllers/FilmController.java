@@ -1,8 +1,9 @@
 package by.it_academy.jd2.EventFilmService.controllers;
 
 
-import by.it_academy.jd2.EventFilmService.core.dto.flim.FilmCreateUpdate;
+import by.it_academy.jd2.EventFilmService.core.dto.flim.FilmCreate;
 import by.it_academy.jd2.EventFilmService.core.dto.flim.FilmRead;
+import by.it_academy.jd2.EventFilmService.core.dto.flim.FilmUpdate;
 import by.it_academy.jd2.EventFilmService.core.dto.page.PageRead;
 import by.it_academy.jd2.EventFilmService.service.api.IFilmService;
 import by.it_academy.jd2.EventFilmService.service.api.IMapperService;
@@ -30,7 +31,7 @@ public class FilmController {
     }
 
     @PostMapping
-    public ResponseEntity<FilmRead> create(@RequestBody FilmCreateUpdate dto) {
+    public ResponseEntity<FilmRead> create(@RequestBody FilmCreate dto) {
         return new ResponseEntity<>(mapperService.mapRead(filmService.create(dto)), HttpStatus.CREATED);
     }
 
@@ -49,7 +50,7 @@ public class FilmController {
     }
 
     @PutMapping("/{uuid}/dt_update/{dt_update}")
-    public ResponseEntity <FilmRead> update(@PathVariable UUID uuid, @RequestBody FilmCreateUpdate dto, @PathVariable Long dt_update) {
+    public ResponseEntity <FilmRead> update(@PathVariable UUID uuid, @RequestBody FilmUpdate dto, @PathVariable Long dt_update) {
         LocalDateTime lastKnowDtUpdate = LocalDateTime.ofInstant(Instant.ofEpochMilli(dt_update), ZoneId.systemDefault());
 
         filmService.update(uuid, dto, lastKnowDtUpdate);

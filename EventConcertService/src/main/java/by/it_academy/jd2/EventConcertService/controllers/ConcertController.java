@@ -1,8 +1,9 @@
 package by.it_academy.jd2.EventConcertService.controllers;
 
 
-import by.it_academy.jd2.EventConcertService.core.dto.concert.ConcertCreateUpdate;
+import by.it_academy.jd2.EventConcertService.core.dto.concert.ConcertCreate;
 import by.it_academy.jd2.EventConcertService.core.dto.concert.ConcertRead;
+import by.it_academy.jd2.EventConcertService.core.dto.concert.ConcertUpdate;
 import by.it_academy.jd2.EventConcertService.core.dto.page.PageRead;
 import by.it_academy.jd2.EventConcertService.service.api.IConcertService;
 import by.it_academy.jd2.EventConcertService.service.api.IMapperService;
@@ -30,7 +31,7 @@ public class ConcertController {
     }
 
     @PostMapping
-    public ResponseEntity<ConcertRead> create(@RequestBody ConcertCreateUpdate dto) {
+    public ResponseEntity<ConcertRead> create(@RequestBody ConcertCreate dto) {
         return new ResponseEntity<>(mapperService.mapRead(concertService.create(dto)), HttpStatus.CREATED);
     }
 
@@ -51,7 +52,7 @@ public class ConcertController {
     }
 
     @PutMapping("/{uuid}/dt_update/{dt_update}")
-    public ResponseEntity <ConcertRead> update(@PathVariable UUID uuid, @RequestBody ConcertCreateUpdate dto, @PathVariable Long dt_update) {
+    public ResponseEntity <ConcertRead> update(@PathVariable UUID uuid, @RequestBody ConcertUpdate dto, @PathVariable Long dt_update) {
         LocalDateTime lastKnowDtUpdate = LocalDateTime.ofInstant(Instant.ofEpochMilli(dt_update), ZoneId.systemDefault());
 
         concertService.update(uuid, dto, lastKnowDtUpdate);
