@@ -7,7 +7,7 @@ import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class FilmCreateUpdate {
+public class FilmCreate {
     @NotBlank
     private String title;
     @NotBlank
@@ -30,11 +30,11 @@ public class FilmCreateUpdate {
     @NotNull
     private Integer duration;
 
-    public FilmCreateUpdate() {
+    public FilmCreate() {
     }
 
-    public FilmCreateUpdate(String title, String description, LocalDateTime dtEvent, LocalDateTime dtEndOfSale,
-                            UUID country, Integer releaseYear, String releaseDate, Integer duration) {
+    public FilmCreate(String title, String description, LocalDateTime dtEvent, LocalDateTime dtEndOfSale,
+                      UUID country, Integer releaseYear, String releaseDate, Integer duration) {
         this.title = title;
         this.description = description;
         this.dtEvent = dtEvent;
