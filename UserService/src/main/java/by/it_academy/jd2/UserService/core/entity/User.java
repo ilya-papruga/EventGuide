@@ -20,13 +20,10 @@ public class User implements UserDetails {
     @Id
     private UUID uuid;
     @Column(name = "dt_create")
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dtCreate;
     @Column(name = "dt_update")
     @Version
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dtUpdate;
-
     private String mail;
     private String nick;
     @ManyToMany(fetch = FetchType.EAGER)

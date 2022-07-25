@@ -14,26 +14,17 @@ public class Concert {
 
     @Id
     private UUID uuid;
-
     @Column(name = "dt_create")
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dtCreate;
-
     @Column(name = "dt_update")
     @Version
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dtUpdate;
     private String title;
     private String description;
-
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     @Column(name = "dt_event")
     private LocalDateTime dtEvent;
-
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     @Column(name = "dt_end_of_sale")
     private LocalDateTime dtEndOfSale;
-
     private String type;
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

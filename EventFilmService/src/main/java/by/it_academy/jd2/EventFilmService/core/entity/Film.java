@@ -9,31 +9,22 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "film_service", name ="film")
+@Table(schema = "film_service", name = "film")
 public class Film {
 
     @Id
     private UUID uuid;
-
     @Column(name = "dt_create")
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dtCreate;
-
     @Column(name = "dt_update")
     @Version
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dtUpdate;
     private String title;
     private String description;
-
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     @Column(name = "dt_event")
     private LocalDateTime dtEvent;
-
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     @Column(name = "dt_end_of_sale")
     private LocalDateTime dtEndOfSale;
-
     private String type;
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

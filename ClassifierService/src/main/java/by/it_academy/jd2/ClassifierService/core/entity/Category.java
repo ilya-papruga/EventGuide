@@ -15,12 +15,10 @@ public class Category {
     private UUID uuid;
 
     @Column(name = "dt_create")
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dtCreate;
 
     @Column(name = "dt_update")
     @Version
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dtUpdate;
     private String title;
 
