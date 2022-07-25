@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class ConcertCreateUpdate {
+public class ConcertCreate {
 
     @NotBlank
     private String title;
@@ -24,10 +24,10 @@ public class ConcertCreateUpdate {
     private UUID category;
 
 
-    public ConcertCreateUpdate() {
+    public ConcertCreate() {
     }
 
-    public ConcertCreateUpdate(String title, String description, LocalDateTime dtEvent, LocalDateTime dtEndOfSale, UUID category) {
+    public ConcertCreate(String title, String description, LocalDateTime dtEvent, LocalDateTime dtEndOfSale, UUID category) {
         this.title = title;
         this.description = description;
         this.dtEvent = dtEvent;
