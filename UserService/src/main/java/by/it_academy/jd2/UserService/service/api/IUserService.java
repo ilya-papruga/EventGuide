@@ -1,5 +1,6 @@
 package by.it_academy.jd2.UserService.service.api;
 
+import by.it_academy.jd2.UserService.core.dto.admin.UserRead;
 import by.it_academy.jd2.UserService.core.dto.user.UserLogin;
 import by.it_academy.jd2.UserService.core.dto.user.UserReg;
 import by.it_academy.jd2.UserService.core.entity.User;
@@ -14,4 +15,6 @@ public interface IUserService extends UserDetailsService {
     void create(@Valid UserReg dto);
 
     String login(@Valid UserLogin dto);
+
+    UserRead about();
 }

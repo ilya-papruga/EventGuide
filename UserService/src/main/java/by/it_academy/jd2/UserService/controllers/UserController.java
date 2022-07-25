@@ -18,13 +18,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final IUserService userService;
-    private final UserHolder holder;
-    private final IMapperService mapperService;
 
-    public UserController(IUserService userService, UserHolder holder, IMapperService mapperService) {
+    public UserController(IUserService userService) {
         this.userService = userService;
-        this.holder = holder;
-        this.mapperService = mapperService;
     }
 
     @PostMapping("/registration")
@@ -41,6 +37,6 @@ public class UserController {
 
     @RequestMapping(value = "/me")
     public UserRead details(){
-        return holder.getUser();
+        return userService.about();
     }
 }

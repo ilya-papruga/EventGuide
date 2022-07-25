@@ -2,6 +2,7 @@ package by.it_academy.jd2.UserService.service;
 
 import by.it_academy.jd2.UserService.controllers.utils.JwtTokenUtil;
 import by.it_academy.jd2.UserService.core.dao.api.IUserDao;
+import by.it_academy.jd2.UserService.core.dto.admin.UserRead;
 import by.it_academy.jd2.UserService.core.dto.user.UserLogin;
 import by.it_academy.jd2.UserService.core.dto.user.UserReg;
 import by.it_academy.jd2.UserService.core.entity.User;
@@ -24,11 +25,13 @@ public class UserService implements IUserService {
     private final PasswordEncoder encoder;
     private final IUserDao userDao;
     private final IMapperService mapperService;
+    private final UserHolder holder;
 
-    public UserService(PasswordEncoder encoder, IUserDao userDao, IMapperService mapperService) {
+    public UserService(PasswordEncoder encoder, IUserDao userDao, IMapperService mapperService, UserHolder holder) {
         this.encoder = encoder;
         this.userDao = userDao;
         this.mapperService = mapperService;
+        this.holder = holder;
     }
 
 
@@ -60,5 +63,10 @@ public class UserService implements IUserService {
             throw new IllegalArgumentException("пароль неверный");
         }
         return JwtTokenUtil.generateAccessTokenWithRole(details);
+    }
+
+
+    public UserRead about() {
+        return holder.getUser();
     }
 }
