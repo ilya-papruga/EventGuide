@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "main", name ="film")
+@Table(schema = "film_service", name ="film")
 public class Film {
 
     @Id
@@ -44,13 +44,14 @@ public class Film {
     @Column(name = "release_date")
     private String releaseDate;
     private Integer duration;
+    private String author;
 
     public Film() {
     }
 
     public Film(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String title, String description,
                 LocalDateTime dtEvent, LocalDateTime dtEndOfSale, String type, EventStatus eventStatus, UUID country,
-                Integer releaseYear, String releaseDate, Integer duration) {
+                Integer releaseYear, String releaseDate, Integer duration, String author) {
         this.uuid = uuid;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
@@ -64,6 +65,7 @@ public class Film {
         this.releaseYear = releaseYear;
         this.releaseDate = releaseDate;
         this.duration = duration;
+        this.author = author;
     }
 
     public UUID getUuid() {
@@ -168,6 +170,14 @@ public class Film {
 
     public void setDuration(Integer duration) {
         this.duration = duration;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }
 

@@ -39,13 +39,14 @@ public class Concert {
     @Enumerated(EnumType.STRING)
     private EventStatus eventStatus;
     private UUID category;
+    private String author;
 
 
     public Concert() {
     }
 
     public Concert(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String title, String description,
-                   LocalDateTime dtEvent, LocalDateTime dtEndOfSale, String type, EventStatus eventStatus, UUID category) {
+                   LocalDateTime dtEvent, LocalDateTime dtEndOfSale, String type, EventStatus eventStatus, UUID category, String author) {
         this.uuid = uuid;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
@@ -56,6 +57,7 @@ public class Concert {
         this.type = type;
         this.eventStatus = eventStatus;
         this.category = category;
+        this.author = author;
     }
 
     public UUID getUuid() {
@@ -136,6 +138,14 @@ public class Concert {
 
     public void setCategory(UUID category) {
         this.category = category;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }
 
