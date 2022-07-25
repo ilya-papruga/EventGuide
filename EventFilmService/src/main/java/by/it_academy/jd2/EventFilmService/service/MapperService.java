@@ -1,6 +1,7 @@
 package by.it_academy.jd2.EventFilmService.service;
 
-import by.it_academy.jd2.EventFilmService.core.dto.flim.FilmCreateUpdate;
+import by.it_academy.jd2.EventFilmService.core.dto.flim.FilmCreate;
+import by.it_academy.jd2.EventFilmService.core.dto.flim.FilmUpdate;
 import by.it_academy.jd2.EventFilmService.core.dto.page.PageRead;
 import by.it_academy.jd2.EventFilmService.core.dto.flim.FilmRead;
 import by.it_academy.jd2.EventFilmService.core.entity.Film;
@@ -16,6 +17,12 @@ import java.util.UUID;
 
 @Service
 public class MapperService implements IMapperService {
+
+    private final UserHolder holder;
+
+    public MapperService(UserHolder holder) {
+        this.holder = holder;
+    }
 
     @Override
     public FilmRead mapRead(Film film) {
@@ -40,7 +47,7 @@ public class MapperService implements IMapperService {
     }
 
     @Override
-    public Film mapCreate(FilmCreateUpdate dto) {
+    public Film mapCreate(FilmCreate dto) {
 
         Film film = new Film();
 
@@ -57,12 +64,13 @@ public class MapperService implements IMapperService {
         film.setReleaseYear(dto.getReleaseYear());
         film.setReleaseDate(dto.getReleaseDate());
         film.setDuration(dto.getDuration());
+        film.setAuthor(holder.getUser().getUsername());
 
         return film;
     }
 
     @Override
-    public Film mapUpdate(FilmCreateUpdate dto, Film filmDB) {
+    public Film mapUpdate(FilmUpdate dto, Film filmDB) {
 
         Film film = new Film();
 
@@ -74,11 +82,12 @@ public class MapperService implements IMapperService {
         film.setDtEvent(dto.getDtEvent());
         film.setDtEndOfSale(dto.getDtEndOfSale());
         film.setType("film");
-        film.setEventStatus(filmDB.getEventStatus());
+        film.setEventStatus(dto.getEventStatus());
         film.setCountry(dto.getCountry());
         film.setReleaseYear(dto.getReleaseYear());
         film.setReleaseDate(dto.getReleaseDate());
         film.setDuration(dto.getDuration());
+        film.setAuthor(filmDB.getAuthor());
 
         return film;
     }

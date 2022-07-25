@@ -1,6 +1,7 @@
 package by.it_academy.jd2.EventConcertService.service;
 
-import by.it_academy.jd2.EventConcertService.core.dto.concert.ConcertCreateUpdate;
+import by.it_academy.jd2.EventConcertService.core.dto.concert.ConcertCreate;
+import by.it_academy.jd2.EventConcertService.core.dto.concert.ConcertUpdate;
 import by.it_academy.jd2.EventConcertService.core.dto.page.PageRead;
 import by.it_academy.jd2.EventConcertService.core.dto.concert.ConcertRead;
 import by.it_academy.jd2.EventConcertService.core.entity.Concert;
@@ -16,6 +17,12 @@ import java.util.UUID;
 
 @Service
 public class MapperService implements IMapperService {
+
+    private final UserHolder holder;
+
+    public MapperService(UserHolder holder) {
+        this.holder = holder;
+    }
 
     @Override
     public ConcertRead mapRead(Concert concert) {
@@ -37,7 +44,7 @@ public class MapperService implements IMapperService {
     }
 
     @Override
-    public Concert mapCreate(ConcertCreateUpdate dto) {
+    public Concert mapCreate(ConcertCreate dto) {
 
         Concert concert = new Concert();
 
@@ -51,12 +58,13 @@ public class MapperService implements IMapperService {
         concert.setType("concert");
         concert.setEventStatus(EventStatus.DRAFT);
         concert.setCategory(dto.getCategory());
+        concert.setAuthor(holder.getUser().getUsername());
 
         return concert;
     }
 
     @Override
-    public Concert mapUpdate(ConcertCreateUpdate dto, Concert concertDB) {
+    public Concert mapUpdate(ConcertUpdate dto, Concert concertDB) {
 
         Concert concert = new Concert();
 
@@ -69,6 +77,7 @@ public class MapperService implements IMapperService {
         concert.setDtEndOfSale(dto.getDtEndOfSale());
         concert.setType("concert");
         concert.setEventStatus(concertDB.getEventStatus());
+        concert.setEventStatus(dto.getEventStatus());
         concert.setCategory(dto.getCategory());
 
         return concert;
