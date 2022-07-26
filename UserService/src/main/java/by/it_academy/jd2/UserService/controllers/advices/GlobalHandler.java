@@ -7,6 +7,7 @@ import by.it_academy.jd2.UserService.core.dto.error.MultiplyError;
 import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -27,6 +28,17 @@ public class GlobalHandler {
         List<SingleError> errorResponseList = new ArrayList<>();
 
         errorResponseList.add(new SingleError(e.getMessage()));
+
+        return errorResponseList;
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public List<SingleError> handle() {
+
+        List<SingleError> errorResponseList = new ArrayList<>();
+
+        errorResponseList.add(new SingleError("запрос содержит неверный набор полей"));
 
         return errorResponseList;
     }

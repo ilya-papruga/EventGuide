@@ -5,6 +5,7 @@ import by.it_academy.jd2.EventFilmService.core.dto.error.SingleError;
 import by.it_academy.jd2.EventFilmService.core.dto.error.FieldError;
 import by.it_academy.jd2.EventFilmService.core.dto.error.MultiplyError;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -19,7 +20,6 @@ import java.util.*;
 
 @RestControllerAdvice
 public class GlobalHandler {
-
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public List<SingleError> handle(IllegalArgumentException e) {
@@ -27,6 +27,17 @@ public class GlobalHandler {
         List<SingleError> errorResponseList = new ArrayList<>();
 
         errorResponseList.add(new SingleError(e.getMessage()));
+
+        return errorResponseList;
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public List<SingleError> handle() {
+
+        List<SingleError> errorResponseList = new ArrayList<>();
+
+        errorResponseList.add(new SingleError("запрос содержит неверный набор полей"));
 
         return errorResponseList;
     }
