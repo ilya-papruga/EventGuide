@@ -1,9 +1,11 @@
 package by.it_academy.jd2.EventFilmService.core.dto.flim;
 
 import by.it_academy.jd2.EventFilmService.controllers.utils.json.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.validation.constraints.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -23,8 +25,9 @@ public class FilmCreate {
     @Min(value = 0)
     @NotNull
     private Integer releaseYear;
-    @NotBlank
-    private String releaseDate;
+    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd MMMM yyyy",  locale = "ru")
+    private LocalDate releaseDate;
     @Min(value = 0)
     @Max(value = 300)
     @NotNull
@@ -34,7 +37,7 @@ public class FilmCreate {
     }
 
     public FilmCreate(String title, String description, LocalDateTime dtEvent, LocalDateTime dtEndOfSale,
-                      UUID country, Integer releaseYear, String releaseDate, Integer duration) {
+                      UUID country, Integer releaseYear, LocalDate releaseDate, Integer duration) {
         this.title = title;
         this.description = description;
         this.dtEvent = dtEvent;
@@ -93,11 +96,11 @@ public class FilmCreate {
         this.releaseYear = releaseYear;
     }
 
-    public String getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 

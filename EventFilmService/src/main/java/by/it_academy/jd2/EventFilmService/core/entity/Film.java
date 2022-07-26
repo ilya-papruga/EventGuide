@@ -5,6 +5,7 @@ import by.it_academy.jd2.EventFilmService.core.entity.enums.EventStatus;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -33,7 +34,7 @@ public class Film {
     @Column(name = "release_year")
     private Integer releaseYear;
     @Column(name = "release_date")
-    private String releaseDate;
+    private LocalDate releaseDate;
     private Integer duration;
     private String author;
 
@@ -42,7 +43,7 @@ public class Film {
 
     public Film(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String title, String description,
                 LocalDateTime dtEvent, LocalDateTime dtEndOfSale, String type, EventStatus eventStatus, UUID country,
-                Integer releaseYear, String releaseDate, Integer duration, String author) {
+                Integer releaseYear, LocalDate releaseDate, Integer duration, String author) {
         this.uuid = uuid;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
@@ -147,11 +148,11 @@ public class Film {
         this.releaseYear = releaseYear;
     }
 
-    public String getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 

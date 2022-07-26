@@ -2,8 +2,10 @@ package by.it_academy.jd2.EventFilmService.core.dto.flim;
 
 import by.it_academy.jd2.EventFilmService.controllers.utils.json.LocalDateTimeSerializer;
 import by.it_academy.jd2.EventFilmService.core.entity.enums.EventStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -26,7 +28,8 @@ public class FilmRead {
     private EventStatus eventStatus;
     private UUID country;
     private Integer releaseYear;
-    private String releaseDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd MMMM yyyy", locale = "ru")
+    private LocalDate releaseDate;
     private Integer duration;
 
     public FilmRead() {
@@ -34,7 +37,7 @@ public class FilmRead {
 
     public FilmRead(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String title, String description,
                     LocalDateTime dtEvent, LocalDateTime dtEndOfSale, String type, EventStatus eventStatus, UUID country,
-                    Integer releaseYear, String releaseDate, Integer duration) {
+                    Integer releaseYear, LocalDate releaseDate, Integer duration) {
         this.uuid = uuid;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
@@ -138,11 +141,11 @@ public class FilmRead {
         this.releaseYear = releaseYear;
     }
 
-    public String getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 
