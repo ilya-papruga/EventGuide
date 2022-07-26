@@ -37,7 +37,7 @@ public class GlobalHandler {
 
         List<SingleError> errorResponseList = new ArrayList<>();
 
-        errorResponseList.add(new SingleError("запрос содержит неверный набор полей"));
+        errorResponseList.add(new SingleError("запрос содержит неверный набор/формат полей"));
 
         return errorResponseList;
     }
