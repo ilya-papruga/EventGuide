@@ -1,6 +1,7 @@
 package by.it_academy.jd2.ClassifierService.controllers;
 
 
+import by.it_academy.jd2.ClassifierService.controllers.utils.PathVariableValidator;
 import by.it_academy.jd2.ClassifierService.core.dto.category.CategoryCreate;
 import by.it_academy.jd2.ClassifierService.core.dto.category.CategoryRead;
 import by.it_academy.jd2.ClassifierService.core.dto.page.PageRead;
@@ -21,9 +22,12 @@ public class CategoryController {
     private final ICategoryService categoryService;
     private final IMapperService mapperService;
 
-    public CategoryController(ICategoryService categoryService, IMapperService mapperService) {
+    private final PathVariableValidator validator;
+
+    public CategoryController(ICategoryService categoryService, IMapperService mapperService, PathVariableValidator validator) {
         this.categoryService = categoryService;
         this.mapperService = mapperService;
+        this.validator = validator;
     }
 
     @PostMapping
@@ -42,9 +46,11 @@ public class CategoryController {
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<CategoryRead> read(@PathVariable UUID uuid) {
+    public ResponseEntity<CategoryRead> read(@PathVariable String uuid) {
 
-        return ResponseEntity.ok(mapperService.mapReadCategory(categoryService.readOne(uuid)));
+        UUID validUUID = validator.validUUID(uuid);
+
+        return ResponseEntity.ok(mapperService.mapReadCategory(categoryService.readOne(validUUID)));
     }
 
 

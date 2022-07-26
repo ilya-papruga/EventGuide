@@ -1,6 +1,6 @@
-package by.it_academy.jd2.UserService.validation;
+package by.it_academy.jd2.EventConcertService.validation;
 
-import by.it_academy.jd2.UserService.validation.api.IPathVariableValidator;
+import by.it_academy.jd2.EventConcertService.validation.api.IPathVariableValidator;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;

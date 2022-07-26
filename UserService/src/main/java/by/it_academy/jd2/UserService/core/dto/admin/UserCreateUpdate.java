@@ -1,7 +1,6 @@
 package by.it_academy.jd2.UserService.core.dto.admin;
 
-import by.it_academy.jd2.UserService.core.entity.enums.UserStatus;
-import by.it_academy.jd2.UserService.validation.Password;
+import by.it_academy.jd2.UserService.validation.api.Password;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

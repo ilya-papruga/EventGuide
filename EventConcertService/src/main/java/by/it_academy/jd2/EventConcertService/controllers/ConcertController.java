@@ -8,6 +8,8 @@ import by.it_academy.jd2.EventConcertService.core.dto.page.PageRead;
 import by.it_academy.jd2.EventConcertService.service.api.IConcertService;
 import by.it_academy.jd2.EventConcertService.service.api.IMapperService;
 
+import by.it_academy.jd2.EventConcertService.validation.PathVariableValidator;
+import by.it_academy.jd2.EventConcertService.validation.api.IPathVariableValidator;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +26,12 @@ public class ConcertController {
 
     private final IConcertService concertService;
     private final IMapperService mapperService;
+    private final IPathVariableValidator validator;
 
-    public ConcertController(IConcertService concertService, IMapperService mapperService) {
+    public ConcertController(IConcertService concertService, IMapperService mapperService, IPathVariableValidator validator) {
         this.concertService = concertService;
         this.mapperService = mapperService;
+        this.validator = validator;
     }
 
     @PostMapping
@@ -37,25 +41,30 @@ public class ConcertController {
 
 
     @GetMapping
-    public ResponseEntity<PageRead<ConcertRead>> getFilmPage (@RequestParam(defaultValue = "0") Integer page,
-                                                              @RequestParam(defaultValue = "20") Integer size)
-    {
-        PageRequest pageRequest = PageRequest.of(page,size);
+    public ResponseEntity<PageRead<ConcertRead>> getFilmPage(@RequestParam(defaultValue = "0") Integer page,
+                                                             @RequestParam(defaultValue = "20") Integer size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
 
         return ResponseEntity.ok(mapperService.mapPage(concertService.getPage(pageRequest)));
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<ConcertRead> read(@PathVariable UUID uuid) {
+    public ResponseEntity<ConcertRead> read(@PathVariable String uuid) {
 
-        return ResponseEntity.ok(mapperService.mapRead(concertService.readOne(uuid)));
+        UUID validUUID = validator.validUUID(uuid);
+
+        return ResponseEntity.ok(mapperService.mapRead(concertService.readOne(validUUID)));
     }
 
     @PutMapping("/{uuid}/dt_update/{dt_update}")
-    public ResponseEntity <ConcertRead> update(@PathVariable UUID uuid, @RequestBody ConcertUpdate dto, @PathVariable Long dt_update) {
+    public ResponseEntity<ConcertRead> update(@PathVariable String uuid, @RequestBody ConcertUpdate dto, @PathVariable Long dt_update) {
+
+        UUID validUUID = validator.validUUID(uuid);
+        validator.validUnixTime(dt_update);
+
         LocalDateTime lastKnowDtUpdate = LocalDateTime.ofInstant(Instant.ofEpochMilli(dt_update), ZoneId.systemDefault());
 
-        concertService.update(uuid, dto, lastKnowDtUpdate);
+        concertService.update(validUUID, dto, lastKnowDtUpdate);
 
         return read(uuid);
     }

@@ -1,4 +1,6 @@
-package by.it_academy.jd2.UserService.validation;
+package by.it_academy.jd2.UserService.validation.api;
+
+import by.it_academy.jd2.UserService.validation.PasswordValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

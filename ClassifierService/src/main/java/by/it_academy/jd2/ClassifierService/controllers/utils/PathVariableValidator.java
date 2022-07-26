@@ -1,13 +1,12 @@
-package by.it_academy.jd2.UserService.validation;
+package by.it_academy.jd2.ClassifierService.controllers.utils;
 
-import by.it_academy.jd2.UserService.validation.api.IPathVariableValidator;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 import java.util.regex.Pattern;
 
 @Component
-public class PathVariableValidator implements IPathVariableValidator {
+public class PathVariableValidator {
 
     public UUID validUUID(String uuid) {
         Pattern regex = Pattern.compile("^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$");
@@ -22,6 +21,5 @@ public class PathVariableValidator implements IPathVariableValidator {
         if (time.toString().length() != 13) {
             throw new IllegalArgumentException("введена невалидная дата обновления");
         }
-
     }
 }

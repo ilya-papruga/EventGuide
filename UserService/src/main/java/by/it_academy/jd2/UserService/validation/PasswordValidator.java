@@ -1,5 +1,6 @@
 package by.it_academy.jd2.UserService.validation;
 
+import by.it_academy.jd2.UserService.validation.api.Password;
 import org.springframework.util.StringUtils;
 
 import javax.validation.ConstraintValidator;

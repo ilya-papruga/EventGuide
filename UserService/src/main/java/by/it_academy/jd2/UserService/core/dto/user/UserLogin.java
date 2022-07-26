@@ -1,7 +1,5 @@
 package by.it_academy.jd2.UserService.core.dto.user;
 
-import by.it_academy.jd2.UserService.validation.Password;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 

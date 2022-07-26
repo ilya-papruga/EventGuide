@@ -1,6 +1,7 @@
 package by.it_academy.jd2.ClassifierService.controllers;
 
 
+import by.it_academy.jd2.ClassifierService.controllers.utils.PathVariableValidator;
 import by.it_academy.jd2.ClassifierService.core.dto.country.CountryCreate;
 import by.it_academy.jd2.ClassifierService.core.dto.country.CountryRead;
 import by.it_academy.jd2.ClassifierService.core.dto.page.PageRead;
@@ -21,9 +22,12 @@ public class CountryController {
     private final ICountryService countryService;
     private final IMapperService mapperService;
 
-    public CountryController(ICountryService countryService, IMapperService mapperService) {
+    private final PathVariableValidator validator;
+
+    public CountryController(ICountryService countryService, IMapperService mapperService, PathVariableValidator validator) {
         this.countryService = countryService;
         this.mapperService = mapperService;
+        this.validator = validator;
     }
 
     @PostMapping
@@ -42,9 +46,11 @@ public class CountryController {
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<CountryRead> read(@PathVariable UUID uuid) {
+    public ResponseEntity<CountryRead> read(@PathVariable String uuid) {
 
-        return ResponseEntity.ok(mapperService.mapReadCountry(countryService.readOne(uuid)));
+        UUID validUUID = validator.validUUID(uuid);
+
+        return ResponseEntity.ok(mapperService.mapReadCountry(countryService.readOne(validUUID)));
     }
 
 
