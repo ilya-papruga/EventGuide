@@ -4,6 +4,8 @@ package by.it_academy.jd2.UserService.controllers.advices;
 import by.it_academy.jd2.UserService.core.dto.error.SingleError;
 import by.it_academy.jd2.UserService.core.dto.error.FieldError;
 import by.it_academy.jd2.UserService.core.dto.error.MultiplyError;
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
+import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -25,6 +27,22 @@ public class GlobalHandler {
         List<SingleError> errorResponseList = new ArrayList<>();
 
         errorResponseList.add(new SingleError(e.getMessage()));
+
+        return errorResponseList;
+    }
+
+    @ExceptionHandler(PSQLException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public List<SingleError> handle(PSQLException e) {
+
+        List<SingleError> errorResponseList = new ArrayList<>();
+
+        errorResponseList.add(new SingleError(e.getMessage()
+                .split("Ключ")[1].trim()
+                .replaceAll("\"", "")
+                .replaceAll("\\(", "")
+                .replaceAll("\\)", "")
+                .replaceAll("\\=", " ")));
 
         return errorResponseList;
     }
