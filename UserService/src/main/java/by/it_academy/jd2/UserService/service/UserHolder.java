@@ -2,7 +2,7 @@ package by.it_academy.jd2.UserService.service;
 
 import by.it_academy.jd2.UserService.core.dto.admin.UserRead;
 import by.it_academy.jd2.UserService.core.entity.User;
-import by.it_academy.jd2.UserService.service.api.IMapperService;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -10,14 +10,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserHolder {
 
-    private final IMapperService mapperService;
+    private final ConversionService conversionService;
 
-    public UserHolder(IMapperService mapperService) {
-        this.mapperService = mapperService;
+    public UserHolder(ConversionService conversionService) {
+        this.conversionService = conversionService;
     }
 
     public UserRead getUser(){
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return mapperService.mapRead(user);
+        return conversionService.convert(user, UserRead.class);
     }
 }
