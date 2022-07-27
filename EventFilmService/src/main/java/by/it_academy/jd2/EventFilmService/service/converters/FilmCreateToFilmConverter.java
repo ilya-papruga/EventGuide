@@ -22,24 +22,24 @@ public class FilmCreateToFilmConverter implements Converter<FilmCreate, Film> {
     @Override
     public Film convert(FilmCreate dto) {
 
-        Film film = new Film();
+        Film entity = new Film();
 
-        film.setUuid(UUID.randomUUID());
-        film.setDtCreate(LocalDateTime.now());
-        film.setDtUpdate(film.getDtCreate());
-        film.setTitle(dto.getTitle());
-        film.setDescription(dto.getDescription());
-        film.setDtEvent(dto.getDtEvent());
-        film.setDtEndOfSale(dto.getDtEndOfSale());
-        film.setType("film");
-        film.setEventStatus(EventStatus.DRAFT);
-        film.setCountry(dto.getCountry());
-        film.setReleaseYear(dto.getReleaseYear());
-        film.setReleaseDate(dto.getReleaseDate());
-        film.setDuration(dto.getDuration());
-        film.setAuthor(holder.getUser().getUsername());
+        entity.setUuid(UUID.randomUUID());
+        entity.setDtCreate(LocalDateTime.now());
+        entity.setDtUpdate(entity.getDtCreate());
+        entity.setTitle(dto.getTitle());
+        entity.setDescription(dto.getDescription());
+        entity.setDtEvent(dto.getDtEvent());
+        entity.setDtEndOfSale(dto.getDtEndOfSale());
+        entity.setType("film");
+        entity.setEventStatus(EventStatus.DRAFT);
+        entity.setCountry(dto.getCountry());
+        entity.setReleaseYear(dto.getReleaseYear());
+        entity.setReleaseDate(dto.getReleaseDate());
+        entity.setDuration(dto.getDuration());
+        entity.setAuthor(holder.getUser().getUsername());
 
-        return film;
+        return entity;
 
     }
 }

@@ -11,19 +11,19 @@ public class FilmUpdateToFilmConverter implements Converter <FilmUpdate, Film> {
     @Override
     public Film convert(FilmUpdate dto) {
 
-        Film film = new Film();
+        Film entity = new Film();
 
-        film.setTitle(dto.getTitle());
-        film.setDescription(dto.getDescription());
-        film.setDtEvent(dto.getDtEvent());
-        film.setDtEndOfSale(dto.getDtEndOfSale());
-        film.setType("film");
-        film.setEventStatus(dto.getEventStatus());
-        film.setCountry(dto.getCountry());
-        film.setReleaseYear(dto.getReleaseYear());
-        film.setReleaseDate(dto.getReleaseDate());
-        film.setDuration(dto.getDuration());
+        entity.setTitle(dto.getTitle());
+        entity.setDescription(dto.getDescription());
+        entity.setDtEvent(dto.getDtEvent());
+        entity.setDtEndOfSale(dto.getDtEndOfSale());
+        entity.setType("film");
+        entity.setEventStatus(dto.getEventStatus());
+        entity.setCountry(dto.getCountry());
+        entity.setReleaseYear(dto.getReleaseYear());
+        entity.setReleaseDate(dto.getReleaseDate());
+        entity.setDuration(dto.getDuration());
 
-        return film;
+        return entity;
     }
 }

@@ -1,17 +1,17 @@
-package by.it_academy.jd2.EventFilmService.service.converters;
+package by.it_academy.jd2.EventConcertService.service.converters;
 
-import by.it_academy.jd2.EventFilmService.core.dto.flim.FilmRead;
-import by.it_academy.jd2.EventFilmService.core.entity.Film;
+import by.it_academy.jd2.EventConcertService.core.dto.concert.ConcertRead;
+import by.it_academy.jd2.EventConcertService.core.entity.Concert;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FilmToFilmReadConverter implements Converter<Film, FilmRead> {
+public class ConcertToConcertReadConverter implements Converter<Concert, ConcertRead> {
 
     @Override
-    public FilmRead convert(Film entity) {
+    public ConcertRead convert(Concert entity) {
 
-        FilmRead dto = new FilmRead();
+        ConcertRead dto = new ConcertRead();
 
         dto.setUuid(entity.getUuid());
         dto.setDtCreate(entity.getDtCreate());
@@ -22,11 +22,10 @@ public class FilmToFilmReadConverter implements Converter<Film, FilmRead> {
         dto.setDtEndOfSale(entity.getDtEndOfSale());
         dto.setType(entity.getType());
         dto.setEventStatus(entity.getEventStatus());
-        dto.setCountry(entity.getCountry());
-        dto.setReleaseYear(entity.getReleaseYear());
-        dto.setReleaseDate(entity.getReleaseDate());
-        dto.setDuration(entity.getDuration());
+        dto.setCategory(entity.getCategory());
 
         return dto;
+
     }
 }
+

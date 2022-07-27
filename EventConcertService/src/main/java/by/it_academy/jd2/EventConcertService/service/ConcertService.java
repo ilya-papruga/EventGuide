@@ -6,8 +6,8 @@ import by.it_academy.jd2.EventConcertService.core.dto.concert.ConcertUpdate;
 import by.it_academy.jd2.EventConcertService.core.entity.Concert;
 import by.it_academy.jd2.EventConcertService.core.entity.enums.EventStatus;
 import by.it_academy.jd2.EventConcertService.service.api.IConcertService;
-import by.it_academy.jd2.EventConcertService.service.api.IMapperService;
-import by.it_academy.jd2.EventConcertService.validation.api.IHttpValidator;
+import by.it_academy.jd2.EventConcertService.validation.api.IClassifierClient;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -22,25 +23,25 @@ import java.util.UUID;
 public class ConcertService implements IConcertService {
 
     private final IConcertDao concertDao;
-    private final IMapperService mapperService;
-    private final IHttpValidator httpValidator;
+    private final IClassifierClient client;
     private final UserHolder holder;
+    private final ConversionService conversionService;
 
 
-    public ConcertService(IConcertDao concertDao, IMapperService mapperService, IHttpValidator httpValidator, UserHolder holder) {
+    public ConcertService(IConcertDao concertDao, IClassifierClient client, UserHolder holder, ConversionService conversionService) {
         this.concertDao = concertDao;
-        this.mapperService = mapperService;
-        this.httpValidator = httpValidator;
+        this.client = client;
         this.holder = holder;
+        this.conversionService = conversionService;
     }
 
     @Override
     @Transactional
     public Concert create(ConcertCreate dto) {
 
-        httpValidator.validCategory(dto.getCategory());
+        client.validCategory(dto.getCategory());
 
-        return this.concertDao.save(this.mapperService.mapCreate(dto));
+        return this.concertDao.save(Objects.requireNonNull(conversionService.convert(dto, Concert.class)));
     }
 
     @Override
@@ -72,14 +73,21 @@ public class ConcertService implements IConcertService {
     @Transactional
     public Concert update(UUID uuid, ConcertUpdate dto, LocalDateTime dtUpdate) {
 
-        httpValidator.validCategory(dto.getCategory());
+        client.validCategory(dto.getCategory());
+
+        Concert concert = conversionService.convert(dto, Concert.class);
 
         Concert concertDB = this.readOne(uuid);
+
+        concert.setUuid(concertDB.getUuid());
+        concert.setDtCreate(concertDB.getDtCreate());
+        concert.setDtUpdate(concertDB.getDtUpdate());
+        concert.setAuthor(concertDB.getAuthor());
 
         if (!concertDB.getDtUpdate().equals(dtUpdate)) {
             throw new IllegalArgumentException("концерт уже был обновлен кем-то ранее");
         }
 
-       return this.concertDao.save(mapperService.mapUpdate(dto, concertDB));
+       return this.concertDao.save(concert);
     }
 }

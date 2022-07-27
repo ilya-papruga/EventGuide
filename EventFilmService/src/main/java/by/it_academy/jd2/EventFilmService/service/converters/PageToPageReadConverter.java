@@ -25,8 +25,8 @@ public class PageToPageReadConverter implements Converter<Page<Film>, PageRead<F
 
         List<FilmRead> dtoContent = new ArrayList<>();
 
-        for (Film film : page.getContent()) {
-            dtoContent.add(filmToFilmReadConverter.convert(film));
+        for (Film entity : page.getContent()) {
+            dtoContent.add(filmToFilmReadConverter.convert(entity));
         }
         dtoPage.setNumber(page.getNumber());
         dtoPage.setSize(page.getSize());
@@ -38,7 +38,6 @@ public class PageToPageReadConverter implements Converter<Page<Film>, PageRead<F
         dtoPage.setContent(dtoContent);
 
         return dtoPage;
-
-
+        
     }
 }

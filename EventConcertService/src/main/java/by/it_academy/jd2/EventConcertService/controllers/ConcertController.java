@@ -6,10 +6,9 @@ import by.it_academy.jd2.EventConcertService.core.dto.concert.ConcertRead;
 import by.it_academy.jd2.EventConcertService.core.dto.concert.ConcertUpdate;
 import by.it_academy.jd2.EventConcertService.core.dto.page.PageRead;
 import by.it_academy.jd2.EventConcertService.service.api.IConcertService;
-import by.it_academy.jd2.EventConcertService.service.api.IMapperService;
 
-import by.it_academy.jd2.EventConcertService.validation.PathVariableValidator;
 import by.it_academy.jd2.EventConcertService.validation.api.IPathVariableValidator;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,27 +24,27 @@ import java.util.UUID;
 public class ConcertController {
 
     private final IConcertService concertService;
-    private final IMapperService mapperService;
     private final IPathVariableValidator validator;
+    private final ConversionService conversionService;
 
-    public ConcertController(IConcertService concertService, IMapperService mapperService, IPathVariableValidator validator) {
+    public ConcertController(IConcertService concertService, IPathVariableValidator validator, ConversionService conversionService) {
         this.concertService = concertService;
-        this.mapperService = mapperService;
         this.validator = validator;
+        this.conversionService = conversionService;
     }
 
     @PostMapping
     public ResponseEntity<ConcertRead> create(@RequestBody ConcertCreate dto) {
-        return new ResponseEntity<>(mapperService.mapRead(concertService.create(dto)), HttpStatus.CREATED);
+        return new ResponseEntity<>(conversionService.convert((concertService.create(dto)),ConcertRead.class), HttpStatus.CREATED);
     }
 
 
     @GetMapping
-    public ResponseEntity<PageRead<ConcertRead>> getFilmPage(@RequestParam(defaultValue = "0") Integer page,
+    public ResponseEntity<PageRead> getFilmPage(@RequestParam(defaultValue = "0") Integer page,
                                                              @RequestParam(defaultValue = "20") Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
 
-        return ResponseEntity.ok(mapperService.mapPage(concertService.getPage(pageRequest)));
+        return ResponseEntity.ok(conversionService.convert(concertService.getPage(pageRequest), PageRead.class));
     }
 
     @GetMapping("/{uuid}")
@@ -53,7 +52,7 @@ public class ConcertController {
 
         UUID validUUID = validator.validUUID(uuid);
 
-        return ResponseEntity.ok(mapperService.mapRead(concertService.readOne(validUUID)));
+        return ResponseEntity.ok(conversionService.convert((concertService.readOne(validUUID)), ConcertRead.class));
     }
 
     @PutMapping("/{uuid}/dt_update/{dt_update}")
