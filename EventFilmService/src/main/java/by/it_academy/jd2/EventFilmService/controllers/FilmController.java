@@ -6,9 +6,9 @@ import by.it_academy.jd2.EventFilmService.core.dto.flim.FilmRead;
 import by.it_academy.jd2.EventFilmService.core.dto.flim.FilmUpdate;
 import by.it_academy.jd2.EventFilmService.core.dto.page.PageRead;
 import by.it_academy.jd2.EventFilmService.service.api.IFilmService;
-import by.it_academy.jd2.EventFilmService.service.api.IMapperService;
 
 import by.it_academy.jd2.EventFilmService.validation.api.IPathVariableValidator;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,26 +24,27 @@ import java.util.UUID;
 public class FilmController {
 
     private final IFilmService filmService;
-    private final IMapperService mapperService;
     private final IPathVariableValidator validator;
+    private final ConversionService conversionService;
 
-    public FilmController(IFilmService filmService, IMapperService mapperService, IPathVariableValidator validator) {
+    public FilmController(IFilmService filmService, IPathVariableValidator validator, ConversionService conversionService) {
         this.filmService = filmService;
-        this.mapperService = mapperService;
         this.validator = validator;
+        this.conversionService = conversionService;
     }
 
     @PostMapping
     public ResponseEntity<FilmRead> create(@RequestBody FilmCreate dto) {
-        return new ResponseEntity<>(mapperService.mapRead(filmService.create(dto)), HttpStatus.CREATED);
+        return new ResponseEntity<>(conversionService.convert((filmService.create(dto)), FilmRead.class), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<PageRead<FilmRead>> getFilmPage (@RequestParam(defaultValue = "0") Integer page,
+    public ResponseEntity<PageRead> getFilmPage (@RequestParam(defaultValue = "0") Integer page,
                                                            @RequestParam(defaultValue = "20") Integer size)
     {
         PageRequest pageRequest = PageRequest.of(page,size);
-        return ResponseEntity.ok(mapperService.mapPage(filmService.getPage(pageRequest)));
+
+        return ResponseEntity.ok(conversionService.convert((filmService.getPage(pageRequest)), PageRead.class));
     }
 
     @GetMapping("/{uuid}")
@@ -51,7 +52,7 @@ public class FilmController {
 
         UUID validUUID = validator.validUUID(uuid);
 
-        return ResponseEntity.ok(mapperService.mapRead(filmService.readOne(validUUID)));
+        return ResponseEntity.ok(conversionService.convert(filmService.readOne(validUUID), FilmRead.class));
     }
 
     @PutMapping("/{uuid}/dt_update/{dt_update}")
