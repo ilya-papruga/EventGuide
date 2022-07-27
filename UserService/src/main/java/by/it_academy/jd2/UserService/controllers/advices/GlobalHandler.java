@@ -49,9 +49,9 @@ public class GlobalHandler {
 
         List<SingleError> errorResponseList = new ArrayList<>();
 
-        errorResponseList.add(new SingleError(e.getMessage()
-                .split("Ключ")[1].trim()
+        errorResponseList.add(new SingleError(e.getServerErrorMessage().getDetail()
                 .replaceAll("\"", "")
+                .replaceAll("\\(", "")
                 .replaceAll("\\(", "")
                 .replaceAll("\\)", "")
                 .replaceAll("\\=", " ")));
