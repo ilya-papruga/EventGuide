@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 
-public class UserCreateUpdate {
+public class UserCreate {
 
     @NotNull
     @Email
@@ -19,10 +19,10 @@ public class UserCreateUpdate {
     @Password
     private String password;
 
-    public UserCreateUpdate() {
+    public UserCreate() {
     }
 
-    public UserCreateUpdate(String mail, String nick, String role, String password) {
+    public UserCreate(String mail, String nick, String role, String password) {
         this.mail = mail;
         this.nick = nick;
         this.role = role;
