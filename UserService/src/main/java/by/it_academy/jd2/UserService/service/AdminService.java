@@ -1,16 +1,17 @@
 package by.it_academy.jd2.UserService.service;
 
 import by.it_academy.jd2.UserService.core.dao.api.IUserDao;
-import by.it_academy.jd2.UserService.core.dto.admin.UserCreateUpdate;
+import by.it_academy.jd2.UserService.core.dto.admin.UserCreate;
 import by.it_academy.jd2.UserService.core.entity.User;
 import by.it_academy.jd2.UserService.service.api.IAdminService;
-import by.it_academy.jd2.UserService.service.api.IMapperService;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -18,18 +19,18 @@ import java.util.UUID;
 public class AdminService implements IAdminService {
 
     private final IUserDao userDao;
-    private final IMapperService mapperService;
+    private final ConversionService conversionService;
 
-    public AdminService(IUserDao userDao, IMapperService mapperService) {
+    public AdminService(IUserDao userDao, ConversionService conversionService) {
         this.userDao = userDao;
-        this.mapperService = mapperService;
+        this.conversionService = conversionService;
     }
 
     @Override
     @Transactional
-    public User create(UserCreateUpdate dto) {
+    public User create(UserCreate dto) {
 
-        return this.userDao.save(this.mapperService.mapAdminCreate(dto));
+        return this.userDao.save(Objects.requireNonNull(conversionService.convert(dto, User.class)));
     }
 
     @Override
@@ -49,14 +50,20 @@ public class AdminService implements IAdminService {
 
     @Override
     @Transactional
-    public User update(UUID uuid, UserCreateUpdate dto, LocalDateTime dtUpdate) {
+    public User update(UUID uuid, UserCreate dto, LocalDateTime dtUpdate) {
+
+        User user = conversionService.convert(dto, User.class);
 
         User userDB = readOne(uuid);
+
+        user.setUuid(userDB.getUuid());
+        user.setDtCreate(userDB.getDtCreate());
+        user.setDtUpdate(userDB.getDtUpdate());
+        user.setStatus(userDB.getStatus());
 
         if (!userDB.getDtUpdate().equals(dtUpdate)) {
             throw new IllegalArgumentException("информация о пользователе уже была обновлена кем-то ранее");
         }
-        User user = mapperService.mapUpdate(dto, userDB);
 
         return this.userDao.save(user);
     }

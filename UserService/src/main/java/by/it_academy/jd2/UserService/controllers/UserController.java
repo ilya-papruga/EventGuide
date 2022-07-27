@@ -4,10 +4,7 @@ package by.it_academy.jd2.UserService.controllers;
 import by.it_academy.jd2.UserService.core.dto.admin.UserRead;
 import by.it_academy.jd2.UserService.core.dto.user.UserLogin;
 import by.it_academy.jd2.UserService.core.dto.user.UserReg;
-import by.it_academy.jd2.UserService.service.UserHolder;
-import by.it_academy.jd2.UserService.service.UserService;
 
-import by.it_academy.jd2.UserService.service.api.IMapperService;
 import by.it_academy.jd2.UserService.service.api.IUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

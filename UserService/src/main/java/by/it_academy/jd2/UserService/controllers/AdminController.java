@@ -2,11 +2,11 @@ package by.it_academy.jd2.UserService.controllers;
 
 
 import by.it_academy.jd2.UserService.core.dto.page.PageRead;
-import by.it_academy.jd2.UserService.core.dto.admin.UserCreateUpdate;
+import by.it_academy.jd2.UserService.core.dto.admin.UserCreate;
 import by.it_academy.jd2.UserService.core.dto.admin.UserRead;
-import by.it_academy.jd2.UserService.service.api.IMapperService;
 import by.it_academy.jd2.UserService.service.api.IAdminService;
 import by.it_academy.jd2.UserService.validation.api.IPathVariableValidator;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,30 +23,30 @@ import java.util.UUID;
 public class AdminController {
 
     private final IAdminService adminService;
-    private final IMapperService mapperService;
     private final IPathVariableValidator validator;
+    private final ConversionService conversionService;
 
 
-    public AdminController(IAdminService adminService, IMapperService mapperService, IPathVariableValidator validator) {
+    public AdminController(IAdminService adminService, IPathVariableValidator validator, ConversionService conversionService) {
         this.adminService = adminService;
-        this.mapperService = mapperService;
         this.validator = validator;
+        this.conversionService = conversionService;
     }
 
     @PostMapping
-    public ResponseEntity<UserRead> create(@RequestBody UserCreateUpdate dto, BindingResult bindingResult) {
+    public ResponseEntity<UserRead> create(@RequestBody UserCreate dto, BindingResult bindingResult) {
 
-        return new ResponseEntity<>(mapperService.mapRead(adminService.create(dto)), HttpStatus.CREATED);
+        return new ResponseEntity<>(conversionService.convert((adminService.create(dto)),UserRead.class), HttpStatus.CREATED);
     }
 
 
     @GetMapping
-    public ResponseEntity<PageRead<UserRead>> getFilmPage (@RequestParam(defaultValue = "0") Integer page,
+    public ResponseEntity<PageRead> getFilmPage (@RequestParam(defaultValue = "0") Integer page,
                                                            @RequestParam(defaultValue = "20") Integer size)
     {
         PageRequest pageRequest = PageRequest.of(page,size);
 
-        return ResponseEntity.ok(mapperService.mapPage(adminService.readPage(pageRequest)));
+        return ResponseEntity.ok(conversionService.convert((adminService.readPage(pageRequest)), PageRead.class));
     }
 
     @GetMapping("/{uuid}")
@@ -54,11 +54,11 @@ public class AdminController {
 
         UUID validUUID = validator.validUUID(uuid);
 
-        return ResponseEntity.ok(mapperService.mapRead(adminService.readOne(validUUID)));
+        return ResponseEntity.ok(conversionService.convert((adminService.readOne(validUUID)), UserRead.class));
     }
 
     @PutMapping("/{uuid}/dt_update/{dt_update}")
-    public ResponseEntity <UserRead> update(@PathVariable String uuid, @RequestBody UserCreateUpdate dto, @PathVariable Long dt_update) {
+    public ResponseEntity <UserRead> update(@PathVariable String uuid, @RequestBody UserCreate dto, @PathVariable Long dt_update) {
         validator.validUnixTime(dt_update);
         UUID validUUID = validator.validUUID(uuid);
 

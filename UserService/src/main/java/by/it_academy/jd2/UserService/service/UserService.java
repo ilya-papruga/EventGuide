@@ -7,14 +7,16 @@ import by.it_academy.jd2.UserService.core.dto.user.UserLogin;
 import by.it_academy.jd2.UserService.core.dto.user.UserReg;
 import by.it_academy.jd2.UserService.core.entity.User;
 
-import by.it_academy.jd2.UserService.service.api.IMapperService;
 import by.it_academy.jd2.UserService.service.api.IUserService;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 
 @Service
@@ -24,14 +26,14 @@ public class UserService implements IUserService {
 
     private final PasswordEncoder encoder;
     private final IUserDao userDao;
-    private final IMapperService mapperService;
     private final UserHolder holder;
+    private final ConversionService conversionService;
 
-    public UserService(PasswordEncoder encoder, IUserDao userDao, IMapperService mapperService, UserHolder holder) {
+    public UserService(PasswordEncoder encoder, IUserDao userDao, UserHolder holder, ConversionService conversionService) {
         this.encoder = encoder;
         this.userDao = userDao;
-        this.mapperService = mapperService;
         this.holder = holder;
+        this.conversionService = conversionService;
     }
 
 
@@ -52,7 +54,7 @@ public class UserService implements IUserService {
             throw new IllegalArgumentException("пользователь уже существует");
         }
 
-        this.userDao.save(this.mapperService.mapUserCreate(dto));
+        this.userDao.save(Objects.requireNonNull(conversionService.convert(dto, User.class)));
     }
 
     public String login(UserLogin dto) {

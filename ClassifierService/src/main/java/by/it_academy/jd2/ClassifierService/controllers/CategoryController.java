@@ -4,10 +4,10 @@ package by.it_academy.jd2.ClassifierService.controllers;
 import by.it_academy.jd2.ClassifierService.controllers.utils.PathVariableValidator;
 import by.it_academy.jd2.ClassifierService.core.dto.category.CategoryCreate;
 import by.it_academy.jd2.ClassifierService.core.dto.category.CategoryRead;
-import by.it_academy.jd2.ClassifierService.core.dto.page.PageRead;
+import by.it_academy.jd2.ClassifierService.core.dto.page.PageReadCategory;
 import by.it_academy.jd2.ClassifierService.service.api.ICategoryService;
 
-import by.it_academy.jd2.ClassifierService.service.api.IMapperService;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,29 +20,28 @@ import java.util.UUID;
 public class CategoryController {
 
     private final ICategoryService categoryService;
-    private final IMapperService mapperService;
-
     private final PathVariableValidator validator;
+    private final ConversionService conversionService;
 
-    public CategoryController(ICategoryService categoryService, IMapperService mapperService, PathVariableValidator validator) {
+    public CategoryController(ICategoryService categoryService, PathVariableValidator validator, ConversionService conversionService) {
         this.categoryService = categoryService;
-        this.mapperService = mapperService;
         this.validator = validator;
+        this.conversionService = conversionService;
     }
 
     @PostMapping
     public ResponseEntity<CategoryRead> create(@RequestBody CategoryCreate dto) {
-        return new ResponseEntity<>(mapperService.mapReadCategory(categoryService.create(dto)), HttpStatus.CREATED);
+        return new ResponseEntity<>(conversionService.convert((categoryService.create(dto)), CategoryRead.class), HttpStatus.CREATED);
     }
 
 
     @GetMapping
-    public ResponseEntity<PageRead<CategoryRead>> getFilmPage (@RequestParam(defaultValue = "0") Integer page,
-                                                              @RequestParam(defaultValue = "20") Integer size)
+    public ResponseEntity<PageReadCategory> getFilmPage (@RequestParam(defaultValue = "0") Integer page,
+                                                         @RequestParam(defaultValue = "20") Integer size)
     {
         PageRequest pageRequest = PageRequest.of(page,size);
 
-        return ResponseEntity.ok(mapperService.mapPageCategory(categoryService.readPage(pageRequest)));
+        return ResponseEntity.ok(conversionService.convert((categoryService.readPage(pageRequest)), PageReadCategory.class));
     }
 
     @GetMapping("/{uuid}")
@@ -50,7 +49,7 @@ public class CategoryController {
 
         UUID validUUID = validator.validUUID(uuid);
 
-        return ResponseEntity.ok(mapperService.mapReadCategory(categoryService.readOne(validUUID)));
+        return ResponseEntity.ok(conversionService.convert((categoryService.readOne(validUUID)), CategoryRead.class));
     }
 
 
