@@ -1,6 +1,5 @@
 package by.it_academy.jd2.EventConcertService.validation;
 
-import by.it_academy.jd2.EventConcertService.validation.api.IHttpValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -11,11 +10,11 @@ import javax.persistence.EntityNotFoundException;
 import java.util.UUID;
 
 @Component
-public class HttpValidator implements IHttpValidator {
+public class ClassifierClient implements by.it_academy.jd2.EventConcertService.validation.api.IClassifierClient {
 
     private final RestTemplate template;
 
-    public HttpValidator(RestTemplate template) {
+    public ClassifierClient(RestTemplate template) {
         this.template = template;
     }
     public boolean validCategory(UUID uuid) {
