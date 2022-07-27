@@ -28,7 +28,7 @@ public class PageCategoryToPageReadConverter implements Converter<Page<Category>
         for (Category category : page.getContent()) {
             dtoContent.add(categoryToCategoryReadConverter.convert(category));
         }
-        dtoPage.setNumber(page.getNumber());
+        dtoPage.setNumber(page.getNumber()+1);
         dtoPage.setSize(page.getSize());
         dtoPage.setTotalPages(page.getTotalPages());
         dtoPage.setTotalElements(page.getTotalElements());

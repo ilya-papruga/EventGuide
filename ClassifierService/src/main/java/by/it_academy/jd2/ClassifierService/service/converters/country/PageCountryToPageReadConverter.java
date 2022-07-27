@@ -28,7 +28,7 @@ public class PageCountryToPageReadConverter implements Converter<Page<Country>, 
         for (Country country : page.getContent()) {
             dtoContent.add(countryToCountryReadConverter.convert(country));
         }
-        dtoPage.setNumber(page.getNumber());
+        dtoPage.setNumber(page.getNumber()+1);
         dtoPage.setSize(page.getSize());
         dtoPage.setTotalPages(page.getTotalPages());
         dtoPage.setTotalElements(page.getTotalElements());

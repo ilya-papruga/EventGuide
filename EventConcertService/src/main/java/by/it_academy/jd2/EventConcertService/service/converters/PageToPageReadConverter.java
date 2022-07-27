@@ -30,7 +30,7 @@ public class PageToPageReadConverter implements Converter<Page<Concert>, PageRea
             dtoContent.add(concertToConcertReadConverter.convert(entity));
         }
 
-        dtoPage.setNumber(page.getNumber());
+        dtoPage.setNumber(page.getNumber()+1);
         dtoPage.setSize(page.getSize());
         dtoPage.setTotalPages(page.getTotalPages());
         dtoPage.setTotalElements(page.getTotalElements());

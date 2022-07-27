@@ -28,7 +28,7 @@ public class PageToPageReadConverter implements Converter<Page<Film>, PageRead<F
         for (Film entity : page.getContent()) {
             dtoContent.add(filmToFilmReadConverter.convert(entity));
         }
-        dtoPage.setNumber(page.getNumber());
+        dtoPage.setNumber(page.getNumber()+1);
         dtoPage.setSize(page.getSize());
         dtoPage.setTotalPages(page.getTotalPages());
         dtoPage.setTotalElements(page.getTotalElements());

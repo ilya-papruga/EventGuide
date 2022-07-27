@@ -29,7 +29,7 @@ public class PageToPageReadConverter implements Converter<Page<User>, PageRead<U
         for (User user : page.getContent()) {
             dtoContent.add(converter.convert(user));
         }
-        dtoPage.setNumber(page.getNumber());
+        dtoPage.setNumber(page.getNumber()+1);
         dtoPage.setSize(page.getSize());
         dtoPage.setTotalPages(page.getTotalPages());
         dtoPage.setTotalElements(page.getTotalElements());

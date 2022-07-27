@@ -40,9 +40,9 @@ public class ConcertController {
 
 
     @GetMapping
-    public ResponseEntity<PageRead> getFilmPage(@RequestParam(defaultValue = "0") Integer page,
-                                                             @RequestParam(defaultValue = "20") Integer size) {
-        PageRequest pageRequest = PageRequest.of(page, size);
+    public ResponseEntity<PageRead> getFilmPage(@RequestParam(defaultValue = "1") Integer page,
+                                                @RequestParam(defaultValue = "20") Integer size) {
+        PageRequest pageRequest = PageRequest.of(page-1, size);
 
         return ResponseEntity.ok(conversionService.convert(concertService.getPage(pageRequest), PageRead.class));
     }
