@@ -20,7 +20,7 @@ import java.time.ZoneId;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/event-guide/event/film")
+@RequestMapping("/event-guide/event/film")
 public class FilmController {
 
     private final IFilmService filmService;

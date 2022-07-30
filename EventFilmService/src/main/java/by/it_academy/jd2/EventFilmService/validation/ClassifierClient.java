@@ -23,7 +23,7 @@ public class ClassifierClient implements IClassifierClient {
         HttpStatus statusCode;
 
         try {
-            String url = "http://localhost:8080/api/v1/classifier/country/" + uuid;
+            String url = "http://ClassifierService:80/classifier/country/" + uuid;
             ResponseEntity<String> res = template.getForEntity(url, String.class);
             statusCode = res.getStatusCode();
         } catch (ResourceAccessException e) {

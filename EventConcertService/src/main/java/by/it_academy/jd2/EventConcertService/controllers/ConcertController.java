@@ -20,7 +20,7 @@ import java.time.ZoneId;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/event-guide/event/concert")
+@RequestMapping("/event-guide/event/concert")
 public class ConcertController {
 
     private final IConcertService concertService;

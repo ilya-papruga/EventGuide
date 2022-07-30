@@ -1,8 +1,8 @@
 spring:
   datasource:
-    username: postgres
-    password: postgres
-    url: jdbc:postgresql://localhost:5432/film_service
+    username: root
+    password: root
+    url: jdbc:postgresql://db:5432/film_service
     driver-class-name: org.postgresql.Driver
   jpa:
     properties:
@@ -10,6 +10,6 @@ spring:
         show_sql: true
         format_sql: true
 server:
-  port: 8081
+  port: 81
   error:
       include-message: ALWAYS

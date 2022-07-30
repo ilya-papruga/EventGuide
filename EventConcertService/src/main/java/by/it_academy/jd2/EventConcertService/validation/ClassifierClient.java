@@ -22,7 +22,7 @@ public class ClassifierClient implements by.it_academy.jd2.EventConcertService.v
         HttpStatus statusCode;
 
         try {
-            String url = "http://localhost:8080/api/v1/classifier/concert/category/" + uuid;
+            String url = "http://ClassifierService:80/classifier/concert/category/" + uuid;
             ResponseEntity<String> res = template.getForEntity(url, String.class);
             statusCode = res.getStatusCode();
         } catch (ResourceAccessException e) {

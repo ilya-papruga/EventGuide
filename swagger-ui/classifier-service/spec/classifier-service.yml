@@ -1,0 +1,341 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Сервис афиши
+  contact:
+    name: ITAcademy
+    url: http://it-academy.by
+
+servers:
+  - url: http://{host}:{port}
+    description: custom server
+    variables:
+      host:
+        description: host name
+        default: localhost
+      port:
+        description: port value
+        default: "8080"
+
+tags:
+  - name: "Справочники"
+    description: "Справочники для хранения системных классификаторов"
+
+paths:
+  /api/v1/classifier/country:
+    post:
+      tags:
+        - "Справочники"
+      summary: Добавление новой страны
+      security:
+        - bearerAuth: [ROLE_ADMIN]
+      requestBody:
+        $ref: "#/components/requestBodies/CreateCountry"
+      responses:
+        '201':
+          description: Страна добавлена в справочник
+        '400':
+          $ref: '#/components/responses/Bad_Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal_Server_Error'
+    get:
+      tags:
+        - "Справочники"
+      summary: Получить страницу стран
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          description: Номер страницы
+          required: false
+        - in: query
+          name: size
+          schema:
+            type: integer
+            minimum: 1
+            default: 20
+          description: Размер страницы
+          required: false
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfCountry'
+        '400':
+          $ref: '#/components/responses/Bad_Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal_Server_Error'
+  /api/v1/classifier/concert/category:
+    post:
+      tags:
+        - "Справочники"
+      summary: Добавление новой категории концерта
+      security:
+        - bearerAuth: [ROLE_ADMIN]
+      requestBody:
+        $ref: "#/components/requestBodies/CreateConcertCategory"
+      responses:
+        '201':
+          description: Категория добавлена в справочник
+        '400':
+          $ref: '#/components/responses/Bad_Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal_Server_Error'
+    get:
+      tags:
+        - "Справочники"
+      summary: Получить страницу категорий
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          description: Номер страницы
+          required: false
+        - in: query
+          name: size
+          schema:
+            type: integer
+            minimum: 1
+            default: 20
+          description: Размер страницы
+          required: false
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfConcertCategory'
+        '400':
+          $ref: '#/components/responses/Bad_Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal_Server_Error'
+
+components:
+  requestBodies:
+    CreateCountry:
+      description: Тело для страны
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Country'
+    CreateConcertCategory:
+      description: Тело для категории
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ConcertCategory'
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    Bad_Request:
+      description: Запрос некорректен. Сервер не может обработать запрос
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: array
+                items:
+                  $ref: '#/components/schemas/t_single_error_response'
+              - $ref: '#/components/schemas/t_multiple_error_response'
+          examples:
+            t_single_error_response:
+              value:
+                - logref: error
+                  message:  Запрос содержит некорретные данные. Измените запрос и отправьте его ещё раз
+            t_multiple_error_response:
+              value:
+                logref: structured_error
+                errors:
+                  - field: time_unit
+                    message: Поле должно быть положительным числом
+    Unauthorized:
+      description: Для выполнения запроса на данный адрес требуется передать токен авторизации
+    Forbidden:
+      description: Данному токенту авторизации запрещено выполнять запроса на данный адрес
+    Internal_Server_Error:
+      description: Внутренняя ошибка сервера. Сервер не смог корректно обработать запрос
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/t_single_error_response'
+          example:
+            - logref: error
+              message:  Сервер не смог корректно обработать запрос. Пожалуйста обратитесь к администратору
+  schemas:
+    Country:
+      description: Страна
+      allOf:
+        - $ref: '#/components/schemas/t_base_essence'
+      properties:
+        title:
+          type: string
+          description: "Название"
+          example: "RUS"
+        description:
+          type: string
+          description: "Расшифровка"
+          example: "Россия"
+    ConcertCategory:
+      description: Категория концерта
+      allOf:
+        - $ref: '#/components/schemas/t_base_essence'
+      properties:
+        title:
+          type: string
+          description: "Название"
+          example: "Стендап"
+
+    PageOfCountry:
+      type: object
+      description: Категории
+      allOf:
+        - $ref: '#/components/schemas/t_page'
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Country'
+    PageOfConcertCategory:
+      type: object
+      description: Категории
+      allOf:
+        - $ref: '#/components/schemas/t_page'
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConcertCategory'
+
+    t_base_essence:
+      type: object
+      description: Описание базовой сущности.
+      required:
+        - uuid
+        - dt_create
+        - dt_update
+      properties:
+        uuid:
+          description: Уникальный идентификатор сущности
+          type: string
+          format: uuid
+          readOnly: true
+        dt_create:
+          description: Дата создания сущности (linux time)
+          type: number
+          format: int64
+          readOnly: true
+        dt_update:
+          description: Дата последнего обновления сущности (linux time)
+          type: integer
+          format: int64
+          readOnly: true
+
+    t_page:
+      type: object
+      required:
+        - number
+        - size
+        - total_pages
+        - total_elements
+        - content
+        - first
+        - number_of_elements
+        - last
+      description: Страница
+      properties:
+        number:
+          type: integer
+          description: Номер страницы
+        size:
+          description: Размер страницы
+          type: integer
+        total_pages:
+          description: Количество страниц
+          type: integer
+        total_elements:
+          description: Количество записей
+          type: integer
+        first:
+          description: Признак является ли элемент первым
+          type: boolean
+        number_of_elements:
+          description: Количество элементов на странице
+          type: integer
+        last:
+          description: Признак является ли элемент последним
+          type: boolean
+
+    t_single_error_response:
+      type: object
+      description: Ошибка. Содержит общее описание ошибки
+      required:
+        - logref
+        - message
+      properties:
+        logref:
+          type: string
+          description: Тип ошибки
+          example: error
+        message:
+          description: Сообщение ошибки
+          type: string
+          example: Запрос содержит некорретные данные. Измените запрос и отправьте его ещё раз
+
+    t_multiple_error_response:
+      type: object
+      description: Ошибка. Содержит описание ошибок со ссылками на поля сущности
+      required:
+        - logref
+        - errors
+      properties:
+        logref:
+          type: string
+          description: Тип ошибки
+        errors:
+          description: Наименование ошибочного поля
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Сообщение об ошибке
+                example: Поле должно быть положительным числом
+              field:
+                type: string
+                description: Наименование ошибочного поля
+                example: time_unit

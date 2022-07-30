@@ -19,7 +19,7 @@ import java.time.ZoneId;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/users")
 public class AdminController {
 
     private final IAdminService adminService;

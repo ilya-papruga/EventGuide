@@ -1,0 +1,407 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Сервис афиши
+  contact:
+    name: ITAcademy
+    url: http://it-academy.by
+
+servers:
+  - url: http://{host}:{port}
+    description: custom server
+    variables:
+      host:
+        description: host name
+        default: localhost
+      port:
+        description: port value
+        default: "8080"
+
+tags:
+  - name: "События"
+    description: "Информация о событиях"
+
+paths:
+  /api/v1/afisha/event/{type}:
+    post:
+      tags:
+        - "События"
+      summary: "Добавление нового события"
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: type
+          schema:
+            $ref: '#/components/schemas/EventType'
+          required: true
+      requestBody:
+        $ref: "#/components/requestBodies/CreateEvent"
+      responses:
+        '201':
+          description: "Событие добавлено"
+        '400':
+          $ref: '#/components/responses/Bad_Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal_Server_Error'
+    get:
+      tags:
+        - "События"
+      summary: "Получить страницу событий"
+      parameters:
+        - in: path
+          name: type
+          schema:
+            $ref: '#/components/schemas/EventType'
+          required: true
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          description: Номер страницы
+          required: false
+        - in: query
+          name: size
+          schema:
+            type: integer
+            minimum: 1
+            default: 20
+          description: Размер страницы
+          required: false
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfEvent'
+        '400':
+          $ref: '#/components/responses/Bad_Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal_Server_Error'
+  /api/v1/afisha/event/{type}/{uuid}:
+    get:
+      tags:
+        - "События"
+      summary: "Получить информацию по событию"
+      parameters:
+        - in: path
+          name: type
+          schema:
+            $ref: '#/components/schemas/EventType'
+          required: true
+        - in: path
+          name: uuid
+          description: "Идентификатор события"
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          $ref: '#/components/responses/Bad_Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal_Server_Error'
+  /api/v1/afisha/event/{type}/{uuid}/dt_update/{dt_update}:
+    put:
+      tags:
+        - "События"
+      summary: Редактировать информацию о событии
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: type
+          schema:
+            $ref: '#/components/schemas/EventType'
+          required: true
+        - in: path
+          name: uuid
+          description: "Идентификатор события"
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: path
+          name: dt_update
+          required: true
+          schema:
+            type: string
+            format: int64
+          description: "Дата последнего обновления записи"
+      requestBody:
+        $ref: "#/components/requestBodies/CreateEvent"
+      responses:
+        '200':
+          description: "Счёт обновлён"
+        '400':
+          $ref: '#/components/responses/Bad_Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal_Server_Error'
+
+components:
+  requestBodies:
+    CreateEvent:
+      description: Тело для создания События
+      required: true
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/EventFilm'
+              - $ref: '#/components/schemas/EventConcert'
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    Bad_Request:
+      description: Запрос некорректен. Сервер не может обработать запрос
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: array
+                items:
+                  $ref: '#/components/schemas/t_single_error_response'
+              - $ref: '#/components/schemas/t_multiple_error_response'
+          examples:
+            t_single_error_response:
+              value:
+                - logref: error
+                  message:  Запрос содержит некорретные данные. Измените запрос и отправьте его ещё раз
+            t_multiple_error_response:
+              value:
+                logref: structured_error
+                errors:
+                  - field: time_unit
+                    message: Поле должно быть положительным числом
+    Unauthorized:
+      description: Для выполнения запроса на данный адрес требуется передать токен авторизации
+    Forbidden:
+      description: Данному токенту авторизации запрещено выполнять запроса на данный адрес
+    Internal_Server_Error:
+      description: Внутренняя ошибка сервера. Сервер не смог корректно обработать запрос
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/t_single_error_response'
+          example:
+            - logref: error
+              message:  Сервер не смог корректно обработать запрос. Пожалуйста обратитесь к администратору
+  schemas:
+    EventType:
+        type: string
+        description: |
+              Тип события:
+                * `FILMS` - Фильм
+                * `CONCERTS` - Концерт
+        enum:
+        - "FILMS"
+        - "CONCERTS"
+    EventStatus:
+        type: string
+        description: |
+              Статус события:
+                * `DRAFT` - Черновик
+                * `PUBLISHED` - Опубликовано
+        enum:
+        - "DRAFT"
+        - "PUBLISHED"          
+    Event:
+      type: object
+      description: Событие
+      allOf:
+        - $ref: '#/components/schemas/t_base_essence'
+      properties:
+        title:
+          type: string
+          description: "Наименование"
+        description:
+          type: string
+          description: "Описание"
+        dt_event:
+          type: integer
+          description: "Дата/время проведения (linux time)"
+          format: int64
+        dt_end_of_sale:
+          type: integer
+          description: "Дата/время окончания продажи билетов (linux time)"
+          format: int64
+        type:
+          $ref: '#/components/schemas/EventType'
+        status:
+          $ref: '#/components/schemas/EventStatus'
+    EventFilm:
+      type: object
+      description: Фильм
+      allOf:
+        - $ref: '#/components/schemas/Event'
+      properties:
+        country:
+          type: string
+          format: uuid
+          description: "Страна (ссылка на справочник)"
+        release_year:
+          type: integer
+          description: "Год"
+          example: 2022
+        release_date:
+          type: string
+          format: date
+          description: "Дата премьеры"
+          example: "30 июня 2022"
+        duration:
+          type: integer
+          description: "Длительность (минуты)"
+          example: 100
+    EventConcert:
+      type: object
+      description: Концерт
+      allOf:
+        - $ref: '#/components/schemas/Event'
+      properties:
+        category:
+          type: string
+          format: uuid
+          description: "Категория  (ссылка на справочник)"
+
+    PageOfEvent:
+      type: object
+      description: Страница событий
+      allOf:
+        - $ref: '#/components/schemas/t_page'
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+        
+    t_base_essence:
+      type: object
+      description: Описание базовой сущности.
+      required:
+        - uuid
+        - dt_create
+        - dt_update
+      properties:
+        uuid:
+          description: Уникальный идентификатор сущности
+          type: string
+          format: uuid
+          readOnly: true
+        dt_create:
+          description: Дата создания сущности (linux time)
+          type: number
+          format: int64
+          readOnly: true
+        dt_update:
+          description: Дата последнего обновления сущности (linux time)
+          type: integer
+          format: int64
+          readOnly: true
+
+    t_page:
+      type: object
+      required:
+        - number
+        - size
+        - total_pages
+        - total_elements
+        - content
+        - first
+        - number_of_elements
+        - last
+      description: Страница
+      properties:
+        number:
+          type: integer
+          description: Номер страницы
+        size:
+          description: Размер страницы
+          type: integer
+        total_pages:
+          description: Количество страниц
+          type: integer
+        total_elements:
+          description: Количество записей
+          type: integer
+        first:
+          description: Признак является ли элемент первым
+          type: boolean
+        number_of_elements:
+          description: Номер элемента
+          type: integer
+        last:
+          description: Признак является ли элемент последним
+          type: boolean
+
+    t_single_error_response:
+      type: object
+      description: Ошибка. Содержит общее описание ошибки
+      required:
+        - logref
+        - message
+      properties:
+        logref:
+          type: string
+          description: Тип ошибки
+          example: error
+        message:
+          description: Сообщение ошибки
+          type: string
+          example: Запрос содержит некорретные данные. Измените запрос и отправьте его ещё раз
+
+    t_multiple_error_response:
+      type: object
+      description: Ошибка. Содержит описание ошибок со ссылками на поля сущности
+      required:
+        - logref
+        - errors
+      properties:
+        logref:
+          type: string
+          description: Тип ошибки
+        errors:
+          description: Наименование ошибочного поля
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Сообщение об ошибке
+                example: Поле должно быть положительным числом
+              field:
+                type: string
+                description: Наименование ошибочного поля
+                example: time_unit
