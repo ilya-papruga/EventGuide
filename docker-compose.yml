@@ -2,16 +2,16 @@ version: '3.5'
 services:
   db:
     build: postgresql
-    image: afisha_postgresql:1.0.0
+    image: event-guide_postgresql:1.0.0
     restart: always
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
     networks:
-      - afisha_ntwrk
+      - event-guide_ntwrk
   pgadmin:
     build: pgadmin
-    image: afisha_pgadmin:1.0.0
+    image: event-guide_pgadmin:1.0.0
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
@@ -19,43 +19,43 @@ services:
     ports:
       - "82:80"
     networks:
-      - afisha_ntwrk
+      - event-guide_ntwrk
   swagger-ui:
     build: swagger-ui
-    image: afisha_swagger-ui:1.0.0
+    image: event-guide_swagger-ui:1.0.0
     ports:
       - "81:8080"
     networks:
-      - afisha_ntwrk
+      - event-guide_ntwrk
 
   EventFilmService:
     build: EventFilmService
     image: event-guide_event-film-service:1.0.0
     networks:
-      - afisha_ntwrk
+      - event-guide_ntwrk
   EventConcertService:
     build: EventConcertService
     image: event-guide_event-concert-service:1.0.0
     networks:
-      - afisha_ntwrk
+      - event-guide_ntwrk
   ClassifierService:
     build: ClassifierService
     image: event-guide_classifier-service:1.0.0
     networks:
-      - afisha_ntwrk
+      - event-guide_ntwrk
   UserService:
     build: UserService
     image: event-guide_user-service:1.0.0
     networks:
-      - afisha_ntwrk
+      - event-guide_ntwrk
 
   proxy:
     build: proxy
-    image: afisha_proxy:1.0.0
+    image: event-guide_proxy:1.0.0
     ports:
       - "80:80"
     networks:
-      - afisha_ntwrk
+      - event-guide_ntwrk
 networks:
-    afisha_ntwrk:
-      name: afisha_ntwrk
+    event-guide_ntwrk:
+      name: event-guide_ntwrk
