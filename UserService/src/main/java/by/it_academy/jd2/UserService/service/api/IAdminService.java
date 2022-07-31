@@ -1,6 +1,7 @@
 package by.it_academy.jd2.UserService.service.api;
 
 import by.it_academy.jd2.UserService.core.dto.admin.UserCreate;
+import by.it_academy.jd2.UserService.core.dto.admin.UserUpdate;
 import by.it_academy.jd2.UserService.core.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,6 @@ public interface IAdminService {
     User create (@Valid UserCreate dto);
     User readOne (UUID uuid);
     Page<User> readPage(Pageable pageable);
-    User update(UUID uuid, @Valid UserCreate dto, LocalDateTime dtUpdate);
+    User update(UUID uuid, @Valid UserUpdate dto, LocalDateTime dtUpdate);
 
 }

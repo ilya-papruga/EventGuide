@@ -28,6 +28,7 @@ public class UserUpdateToUserConverter implements Converter<UserUpdate, User> {
         user.setNick(dto.getNick());
         user.setRole(List.of(new Role(dto.getRole())));
         user.setPassword(encoder.encode(dto.getPassword()));
+        user.setStatus(dto.getStatus());
 
         return user;
     }

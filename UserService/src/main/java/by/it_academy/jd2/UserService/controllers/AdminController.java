@@ -1,6 +1,7 @@
 package by.it_academy.jd2.UserService.controllers;
 
 
+import by.it_academy.jd2.UserService.core.dto.admin.UserUpdate;
 import by.it_academy.jd2.UserService.core.dto.page.PageRead;
 import by.it_academy.jd2.UserService.core.dto.admin.UserCreate;
 import by.it_academy.jd2.UserService.core.dto.admin.UserRead;
@@ -58,7 +59,7 @@ public class AdminController {
     }
 
     @PutMapping("/{uuid}/dt_update/{dt_update}")
-    public ResponseEntity <UserRead> update(@PathVariable String uuid, @RequestBody UserCreate dto, @PathVariable Long dt_update) {
+    public ResponseEntity <UserRead> update(@PathVariable String uuid, @RequestBody UserUpdate dto, @PathVariable Long dt_update) {
         validator.validUnixTime(dt_update);
         UUID validUUID = validator.validUUID(uuid);
 

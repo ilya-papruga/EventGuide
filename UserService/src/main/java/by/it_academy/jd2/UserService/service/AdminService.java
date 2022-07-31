@@ -2,6 +2,7 @@ package by.it_academy.jd2.UserService.service;
 
 import by.it_academy.jd2.UserService.core.dao.api.IUserDao;
 import by.it_academy.jd2.UserService.core.dto.admin.UserCreate;
+import by.it_academy.jd2.UserService.core.dto.admin.UserUpdate;
 import by.it_academy.jd2.UserService.core.entity.User;
 import by.it_academy.jd2.UserService.service.api.IAdminService;
 import org.springframework.core.convert.ConversionService;
@@ -50,7 +51,7 @@ public class AdminService implements IAdminService {
 
     @Override
     @Transactional
-    public User update(UUID uuid, UserCreate dto, LocalDateTime dtUpdate) {
+    public User update(UUID uuid, UserUpdate dto, LocalDateTime dtUpdate) {
 
         User user = conversionService.convert(dto, User.class);
 
@@ -59,7 +60,6 @@ public class AdminService implements IAdminService {
         user.setUuid(userDB.getUuid());
         user.setDtCreate(userDB.getDtCreate());
         user.setDtUpdate(userDB.getDtUpdate());
-        user.setStatus(userDB.getStatus());
 
         if (!userDB.getDtUpdate().equals(dtUpdate)) {
             throw new IllegalArgumentException("информация о пользователе уже была обновлена кем-то ранее");
