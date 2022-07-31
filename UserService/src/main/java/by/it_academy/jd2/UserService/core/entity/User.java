@@ -1,8 +1,6 @@
 package by.it_academy.jd2.UserService.core.entity;
 
-import by.it_academy.jd2.UserService.controllers.utils.json.LocalDateTimeSerializer;
 import by.it_academy.jd2.UserService.core.entity.enums.UserStatus;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
