@@ -3,6 +3,7 @@ package by.it_academy.jd2.ClassifierService.controllers.advices;
 import by.it_academy.jd2.ClassifierService.core.dto.error.FieldError;
 import by.it_academy.jd2.ClassifierService.core.dto.error.MultiplyError;
 import by.it_academy.jd2.ClassifierService.core.dto.error.SingleError;
+import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -36,6 +37,22 @@ public class GlobalHandler {
         List<SingleError> errorResponseList = new ArrayList<>();
 
         errorResponseList.add(new SingleError("запрос содержит неверный набор полей"));
+
+        return errorResponseList;
+    }
+
+    @ExceptionHandler(PSQLException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public List<SingleError> handle(PSQLException e) {
+
+        List<SingleError> errorResponseList = new ArrayList<>();
+
+        errorResponseList.add(new SingleError(e.getServerErrorMessage().getDetail()
+                .replaceAll("\"", "")
+                .replaceAll("\\(", "")
+                .replaceAll("\\(", "")
+                .replaceAll("\\)", "")
+                .replaceAll("\\=", " ")));
 
         return errorResponseList;
     }
