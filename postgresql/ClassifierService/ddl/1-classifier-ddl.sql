@@ -48,5 +48,14 @@ CREATE TABLE classifier_service.country (
 ALTER TABLE ONLY classifier_service.category
     ADD CONSTRAINT category_pkey PRIMARY KEY (uuid);
 
+ALTER TABLE ONLY classifier_service.category
+    ADD CONSTRAINT category_title UNIQUE (title);
+
+ALTER TABLE ONLY classifier_service.country
+    ADD CONSTRAINT country_description UNIQUE (description);
+
 ALTER TABLE ONLY classifier_service.country
     ADD CONSTRAINT country_pkey PRIMARY KEY (uuid);
+
+ALTER TABLE ONLY classifier_service.country
+    ADD CONSTRAINT country_title UNIQUE (title);
