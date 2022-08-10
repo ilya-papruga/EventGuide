@@ -1,1 +1,1 @@
-docker save -o afisha.dump afisha_classifier-service:1.0.0 afisha_events-service:1.0.0 afisha_pgadmin:1.0.0 afisha_postgresql:1.0.0 afisha_proxy:1.0.0 afisha_swagger-ui:1.0.0
+docker save -o event-guide.dump event-guide_classifier-service:1.0.0 event-guide_concert-service:1.0.0 event-guide_film-service:1.0.0 event-guide_user-service:1.0.0 event-guide_pgadmin:1.0.0 event-guide_postgresql:1.0.0 event-guide_proxy:1.0.0 event-guide_swagger-ui:1.0.0

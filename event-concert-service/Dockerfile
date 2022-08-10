@@ -1,0 +1,6 @@
+FROM openjdk:11-jdk-slim
+MAINTAINER ITAcademy
+
+COPY target/event-concert-service-1.0.0.jar event-concert-service-1.0.0.jar
+
+ENTRYPOINT ["java", "-jar", "/event-concert-service-1.0.0.jar"]

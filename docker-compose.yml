@@ -28,23 +28,23 @@ services:
     networks:
       - event-guide_ntwrk
 
-  EventFilmService:
-    build: EventFilmService
-    image: event-guide_event-film-service:1.0.0
+  event-film-service:
+    build: event-film-service
+    image: event-guide_film-service:1.0.0
     networks:
       - event-guide_ntwrk
-  EventConcertService:
-    build: EventConcertService
-    image: event-guide_event-concert-service:1.0.0
+  event-concert-service:
+    build: event-concert-service
+    image: event-guide_concert-service:1.0.0
     networks:
       - event-guide_ntwrk
-  ClassifierService:
-    build: ClassifierService
+  event-classifier-service:
+    build: event-classifier-service
     image: event-guide_classifier-service:1.0.0
     networks:
       - event-guide_ntwrk
-  UserService:
-    build: UserService
+  event-user-service:
+    build: event-user-service
     image: event-guide_user-service:1.0.0
     networks:
       - event-guide_ntwrk
