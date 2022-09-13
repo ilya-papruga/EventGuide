@@ -1,7 +1,7 @@
 package by.it_academy.jd2.classifier.service.converters.country;
 
-import by.it_academy.jd2.classifier.core.dto.country.CountryCreate;
-import by.it_academy.jd2.classifier.core.entity.Country;
+import by.it_academy.jd2.classifier.dto.country.CountryCreate;
+import by.it_academy.jd2.classifier.entity.Country;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

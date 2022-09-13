@@ -1,8 +1,8 @@
 package by.it_academy.jd2.classifier.service.converters.country;
 
-import by.it_academy.jd2.classifier.core.dto.country.CountryRead;
-import by.it_academy.jd2.classifier.core.dto.page.PageReadCountry;
-import by.it_academy.jd2.classifier.core.entity.Country;
+import by.it_academy.jd2.classifier.dto.country.CountryRead;
+import by.it_academy.jd2.classifier.dto.page.PageReadCountry;
+import by.it_academy.jd2.classifier.entity.Country;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;

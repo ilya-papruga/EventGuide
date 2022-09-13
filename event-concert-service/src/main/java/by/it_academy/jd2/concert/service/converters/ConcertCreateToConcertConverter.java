@@ -1,8 +1,8 @@
 package by.it_academy.jd2.concert.service.converters;
 
-import by.it_academy.jd2.concert.core.dto.concert.ConcertCreate;
-import by.it_academy.jd2.concert.core.entity.Concert;
-import by.it_academy.jd2.concert.core.entity.enums.EventStatus;
+import by.it_academy.jd2.concert.dto.concert.ConcertCreate;
+import by.it_academy.jd2.concert.entity.Concert;
+import by.it_academy.jd2.concert.entity.enums.EventStatus;
 import by.it_academy.jd2.concert.service.UserHolder;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;

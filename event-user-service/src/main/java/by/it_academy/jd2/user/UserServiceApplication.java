@@ -8,7 +8,6 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 @SpringBootApplication
-@EnableJpaRepositories("by.it_academy.jd2.user.core.dao.api")
 public class UserServiceApplication {
     public static void main(String[] args) {
         Locale.setDefault(new Locale("ru"));

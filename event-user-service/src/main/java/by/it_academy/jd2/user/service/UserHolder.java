@@ -1,7 +1,7 @@
 package by.it_academy.jd2.user.service;
 
-import by.it_academy.jd2.user.core.dto.admin.UserRead;
-import by.it_academy.jd2.user.core.entity.User;
+import by.it_academy.jd2.user.dto.admin.UserRead;
+import by.it_academy.jd2.user.entity.User;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;

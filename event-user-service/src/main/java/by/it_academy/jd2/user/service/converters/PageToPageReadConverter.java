@@ -1,8 +1,8 @@
 package by.it_academy.jd2.user.service.converters;
 
-import by.it_academy.jd2.user.core.dto.admin.UserRead;
-import by.it_academy.jd2.user.core.dto.page.PageRead;
-import by.it_academy.jd2.user.core.entity.User;
+import by.it_academy.jd2.user.dto.admin.UserRead;
+import by.it_academy.jd2.user.dto.page.PageRead;
+import by.it_academy.jd2.user.entity.User;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;

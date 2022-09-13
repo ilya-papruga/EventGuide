@@ -1,8 +1,8 @@
 package by.it_academy.jd2.classifier.service.converters.category;
 
-import by.it_academy.jd2.classifier.core.dto.category.CategoryRead;
-import by.it_academy.jd2.classifier.core.dto.page.PageReadCategory;
-import by.it_academy.jd2.classifier.core.entity.Category;
+import by.it_academy.jd2.classifier.dto.category.CategoryRead;
+import by.it_academy.jd2.classifier.dto.page.PageReadCategory;
+import by.it_academy.jd2.classifier.entity.Category;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;

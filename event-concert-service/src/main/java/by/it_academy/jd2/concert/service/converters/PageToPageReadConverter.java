@@ -1,8 +1,8 @@
 package by.it_academy.jd2.concert.service.converters;
 
-import by.it_academy.jd2.concert.core.dto.concert.ConcertRead;
-import by.it_academy.jd2.concert.core.dto.page.PageRead;
-import by.it_academy.jd2.concert.core.entity.Concert;
+import by.it_academy.jd2.concert.dto.concert.ConcertRead;
+import by.it_academy.jd2.concert.dto.page.PageRead;
+import by.it_academy.jd2.concert.entity.Concert;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;

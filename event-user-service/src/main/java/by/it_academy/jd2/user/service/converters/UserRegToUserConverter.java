@@ -1,9 +1,9 @@
 package by.it_academy.jd2.user.service.converters;
 
-import by.it_academy.jd2.user.core.dto.user.UserReg;
-import by.it_academy.jd2.user.core.entity.Role;
-import by.it_academy.jd2.user.core.entity.User;
-import by.it_academy.jd2.user.core.entity.enums.UserStatus;
+import by.it_academy.jd2.user.dto.user.UserReg;
+import by.it_academy.jd2.user.entity.Role;
+import by.it_academy.jd2.user.entity.User;
+import by.it_academy.jd2.user.entity.enums.UserStatus;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
